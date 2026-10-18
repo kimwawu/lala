@@ -625,6 +625,8 @@
         });
 
         chat.classList.add('open');
+         body.scrollTop = body.scrollHeight;
+        requestAnimationFrame(function () { body.scrollTop = body.scrollHeight; });
       };
     });
 
