@@ -262,6 +262,75 @@
     }
     .phone.in-msg .status { color: black; }
     .phone.in-msg .bar { background: black; }
+          .msg-item { cursor: pointer; }
+
+    .chat {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 40px;
+      background: white;
+      color: black;
+      user-select: none;
+      transform: translateX(100%);
+      pointer-events: none;
+      transition: transform 0.3s;
+    }
+    .chat.open {
+      transform: translateX(0);
+      pointer-events: auto;
+    }
+    .chat-head {
+      position: relative;
+      height: 96px;
+      box-sizing: border-box;
+      padding-top: 42px;
+      text-align: center;
+      background: #f9f9f9;
+      border-bottom: 1px solid #e5e5ea;
+      border-radius: 40px 40px 0 0;
+    }
+    .chat-head .msg-avatar {
+      width: 32px;
+      height: 32px;
+      font-size: 14px;
+      margin: 0 auto 2px;
+    }
+    .chat-name {
+      font-size: 11px;
+    }
+    .chat-back {
+      position: absolute;
+      left: 14px;
+      top: 52px;
+      color: #007aff;
+      font-size: 15px;
+      cursor: pointer;
+    }
+    .chat-body {
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .bubble {
+      max-width: 75%;
+      padding: 7px 12px;
+      border-radius: 18px;
+      font-size: 14px;
+      line-height: 1.3;
+    }
+    .bubble.in {
+      background: #e9e9eb;
+      align-self: flex-start;
+    }
+    .bubble.out {
+      background: #007aff;
+      color: white;
+      align-self: flex-end;
+    }
   </style>
 </head>
 <body>
@@ -306,12 +375,12 @@
       <div class="msg-search">검색</div>
 
       <div class="msg-item">
-        <div class="msg-avatar">친</div>
+        <div class="msg-avatar">백</div>
         <div class="msg-text">
-          <div class="msg-name">친구1</div>
-          <div class="msg-preview">오늘 저녁에 뭐해?</div>
+          <div class="msg-name">백일몽 주식회사</div>
+          <div class="msg-preview">[백일몽 주식회사 | 복지몰 구매 안내]</div>
         </div>
-        <div class="msg-time">오후 9:10</div>
+        <div class="msg-time">오전 11:32</div>
       </div>
 
       <div class="msg-item">
@@ -332,7 +401,18 @@
         <div class="msg-time">어제</div>
       </div>
     </div>
-
+    <div class="chat">
+      <div class="chat-head">
+        <div class="chat-back">‹ 메시지</div>
+        <div class="msg-avatar" id="chatAvatar">친</div>
+        <div class="chat-name" id="chatName">친구1</div>
+      </div>
+      <div class="chat-body">
+        <div class="bubble out">안녕!</div>
+        <div class="bubble in" id="chatLast">오늘 저녁에 뭐해?</div>
+        <div class="bubble out">아직 계획 없어</div>
+      </div>
+    </div>
     <div class="island"></div>
     <div class="bar"></div>
     <div class="status">
@@ -376,6 +456,45 @@
     phone.onpointerup = function (e) {
       if (startY - e.clientY > 50) {
         if (messages.classList.contains('open')) {
+          messages.classList.remove('open');
+          phone.classList.remove('in-msg');
+        } else {
+          lock.classList.add('up');
+        }
+      }
+    };
+          const phone = document.querySelector('.phone');
+    const lock = document.querySelector('.lock');
+    const messages = document.querySelector('.messages');
+    const chat = document.querySelector('.chat');
+    const msgApp = document.getElementById('msgApp');
+    let startY = 0;
+
+    msgApp.onclick = function () {
+      messages.classList.add('open');
+      phone.classList.add('in-msg');
+    };
+
+    document.querySelectorAll('.msg-item').forEach(function (item) {
+      item.onclick = function () {
+        document.getElementById('chatAvatar').textContent = item.querySelector('.msg-avatar').textContent;
+        document.getElementById('chatName').textContent = item.querySelector('.msg-name').textContent;
+        document.getElementById('chatLast').textContent = item.querySelector('.msg-preview').textContent;
+        chat.classList.add('open');
+      };
+    });
+
+    document.querySelector('.chat-back').onclick = function () {
+      chat.classList.remove('open');
+    };
+
+    phone.onpointerdown = function (e) {
+      startY = e.clientY;
+    };
+    phone.onpointerup = function (e) {
+      if (startY - e.clientY > 50) {
+        if (messages.classList.contains('open')) {
+          chat.classList.remove('open');
           messages.classList.remove('open');
           phone.classList.remove('in-msg');
         } else {
