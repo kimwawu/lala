@@ -25,84 +25,9 @@
       background-size: cover;
       background-repeat: no-repeat;
       border-radius: 40px;
-      box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+      box-shadow: 0 10px 20px rgba(255,255,255,0.2);
       touch-action: none;
     }
-    .home-screen {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      box-sizing: border-box;
-      padding: 60px 16px 20px 16px;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-    }
-    .dock {
-      width: 100%;
-      height: 68px;
-      background: rgba(255, 255, 255, 0.25);
-      backdrop-filter: blur(25px);
-      -webkit-backdrop-filter: blur(25px);
-      border-radius: 30px;
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      padding: 0 8px;
-      box-sizing: border-box;
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      margin-bottom: 12px;
-    }
-    .dock-icon {
-      position: relative;
-      width: 48px;
-      height: 48px;
-      border-radius: 11px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-      cursor: pointer;
-    }
-
-    .icon-phone {
-      background: linear-gradient(180deg, #63E660 0%, #34C759 100%);
-    }
-
-    .icon-talk {
-      background: #FEE500;
-    }
-
-    .icon-message {
-      background: linear-gradient(180deg, #63E660 0%, #34C759 100%);
-    }
-
-    .icon-safari {
-      background: #FFFFFF;
-    }
-
-    .badge {
-      position: absolute;
-      top: -4px;
-      right: -4px;
-      background: #FF3B30;
-      color: white;
-      font-size: 11px;
-      font-weight: 700;
-      min-width: 18px;
-      height: 18px;
-      border-radius: 9px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 0 4px;
-      box-sizing: border-box;
-      border: 1.5px solid #FFFFFF;
-      line-height: 1;
-    }
-
     .lock {
       position: absolute;
       top: 0;
@@ -111,3 +36,157 @@
       height: 100%;
       border-radius: 40px;
       background-image: url(https://cdn.discordapp.com/attachments/1161239105489866772/1561390092575318138/IMG_4169.png?ex=6ad62d57&is=6ad4dbd7&hm=c14f8811235b73568cf82a8f621ed3232447c9ea80b1833e17036920f8efbd96&);
+      background-size: cover;
+      background-position: center;
+      color: white;
+      text-align: center;
+      user-select: none;
+      transition: transform 0.5s;
+    }
+    .lock.up {
+      transform: translateY(-100%);   
+    }
+    .lock-date {
+      margin-top: 50px;
+      font-size: 18px;
+      font-weight: 600;
+      opacity: 0.8;
+    }
+    .lock-time {
+      font-size: 95px;
+      font-weight: 600;
+      opacity: 0.8;
+      line-height: 1;
+      margin-top: -6px;
+      letter-spacing: -5px;
+    }
+    .lock-btn {
+      position: absolute;
+      bottom: 40px;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: transform 0.2s;
+    }
+    .lock-btn.left {
+      left: 30px;
+    }
+    .lock-btn.right {
+      right: 30px;
+    }
+    .lock-btn:active {
+      transform: scale(1.2);
+    }
+    .island {
+      position: absolute;
+      top: 15px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 23px;
+      background: black;
+      border-radius: 20px;
+    }
+    .bar {
+      position: absolute;
+      bottom: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 110px;
+      height: 5px;
+      background: white;
+      opacity: 0.5;
+      border-radius: 3px;
+      transition: width 0.2s;
+    }
+    .bar:active {
+      width: 125px;
+    }
+    .status {
+      position: absolute;
+      top: 13px;
+      left: 0;
+      right: 0;
+      height: 26px;
+      padding-left: 42px;
+      padding-right: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: white;
+      font-size: 15px;
+      font-weight: 600;
+    }
+    .icons {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="phone">
+  <div class="lock">
+    <div class="lock-date">9월 7일 (월)</div>
+    <div class="lock-time">21:17</div>
+    <div class="lock-btn left">
+  <svg width="20" height="24" viewBox="0 0 20 24" fill="white">
+    <rect x="3" y="0" width="14" height="5" rx="1.5"/>
+    <path d="M5 7h10v13a3 3 0 0 1-3 3H8a3 3 0 0 1-3-3z"/>
+    <rect x="8.5" y="11" width="3" height="6" rx="1.5" fill="rgba(0,0,0,0.35)"/>
+  </svg>
+</div>
+
+<div class="lock-btn right">
+  <svg width="24" height="20" viewBox="0 0 24 20" fill="white">
+    <path d="M8 2l1.5-2h5L16 2h4a3 3 0 0 1 3 3v11a3 3 0 0 1-3 3H4a3 3 0 0 1-3-3V5a3 3 0 0 1 3-3z"/>
+    <circle cx="12" cy="10.5" r="4.5" fill="rgba(0,0,0,0.35)"/>
+  </svg>
+</div>
+  </div>
+  <div class="island"></div>
+  <div class="bar"></div>
+  <div class="status">
+    <span>21:17</span>
+    <span class="icons">
+      <svg width="18" height="12" viewBox="0 0 18 12" fill="currentColor">
+        <rect y="8" width="3" height="4" rx="1"/>
+        <rect x="5" y="5.5" width="3" height="6.5" rx="1"/>
+        <rect x="10" y="3" width="3" height="9" rx="1"/>
+        <rect x="15" width="3" height="12" rx="1"/>
+      </svg>
+      <svg width="16" height="12" viewBox="0 0 16 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <path d="M1 4.5a10 10 0 0 1 14 0M3.5 7.3a6.5 6.5 0 0 1 9 0"/>
+        <circle cx="8" cy="10" r="0.8" fill="currentColor"/>
+      </svg>
+      <svg width="27" height="12" viewBox="0 0 27 12">
+        <rect x="0.5" y="0.5" width="23" height="11" rx="3.5" fill="none" stroke="currentColor" opacity="0.4"/>
+        <rect x="2" y="2" width="5" height="8" rx="2" fill="currentColor"/>
+        <path d="M25 4v4c0.8-0.3 1.5-1.1 1.5-2S25.8 4.3 25 4z" fill="currentColor" opacity="0.5"/>
+      </svg>
+    </span>
+  </div>
+  <script>
+      const phone = document.querySelector('.phone');
+      const lock = document.querySelector('.lock');
+      let startY = 0;
+      phone.onpointerdown = function (e) {
+      startY = e.clientY;
+      };
+      phone.onpointerup = function (e) {
+    if (startY - e.clientY > 50) {
+      lock.classList.add('up');
+      }
+    };
+</script>
+</body>
+</html>
+</body>
+</html>
