@@ -1,4 +1,4 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
@@ -154,7 +154,7 @@
       cursor: pointer;
       overflow: hidden;
     }
-        .calendar {
+    .calendar {
       container-type: size;
       background: linear-gradient(#ffffff, #f0f0f0);
       display: flex;
@@ -163,6 +163,8 @@
       align-items: center;
       gap: 2px;
       cursor: pointer;
+      box-sizing: border-box;
+      padding-top: 8px;
     }
     .calendar .day {
       font-size: 19cqw;
@@ -187,20 +189,23 @@
 <body>
   <div class="phone">
 
-    <a class="app">
-      <img src="https://cdn.discordapp.com/attachments/1161239105489866772/1561417960868937819/16566077.png?ex=6ad6474b&is=6ad4f5cb&hm=30ed0f9e6dcc79771b911a9e1c1cdc90ddcb62889771829791710674a0f240df&">
-       </a>
+    <div class="phone">
+
+    <div class="dock">
+      <a class="app">
+        <img src="https://cdn.discordapp.com/attachments/1161239105489866772/1561417960868937819/16566077.png?ex=6ad6474b&is=6ad4f5cb&hm=30ed0f9e6dcc79771b911a9e1c1cdc90ddcb62889771829791710674a0f240df&">
+      </a>
       <div class="app"></div>
       <div class="app calendar">
-          <div class="day">월요일</div>
-          <div class="num">7</div>
-    </div>
+        <div class="day">월요일</div>
+        <div class="num">7</div>
+      </div>
       <a class="app">
-      <img src="https://cdn.discordapp.com/attachments/1161239105489866772/1561414546885836890/png-clipart-computer-icons-imessage-imessage-leaf-logo-thumbnail.png?ex=6ad6441d&is=6ad4f29d&hm=e07576a2f1593937e0522d02fe4365644e81e1beaa08f417ac172d2cf0ac4670&">
-       </a>
+        <img src="https://cdn.discordapp.com/attachments/1161239105489866772/1561414546885836890/png-clipart-computer-icons-imessage-imessage-leaf-logo-thumbnail.png?ex=6ad6441d&is=6ad4f29d&hm=e07576a2f1593937e0522d02fe4365644e81e1beaa08f417ac172d2cf0ac4670&">
+      </a>
       <a class="app" href="https://www.daydreamcorp.space/ko" target="_blank">
         <img src="https://cdn.discordapp.com/attachments/1161239105489866772/1561413157400879317/safari_ios_browser_logo_icon_152966.png?ex=6ad642d2&is=6ad4f152&hm=a6238df4726db263a304a32f29ab37ab867813a19ebcf1e95ec0b652ec57dc43&">
-       </a>
+      </a>
     </div>
 
     <div class="lock">
@@ -259,7 +264,5 @@
       }
     };
   </script>
-</body>
-</html>
 </body>
 </html>
