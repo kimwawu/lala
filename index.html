@@ -26,7 +26,6 @@
       background-repeat: no-repeat;
       border-radius: 40px;
       box-shadow: 0 10px 20px rgba(255,255,255,0.2);
-      touch-action: none;
     }
     .lock {
       position: absolute;
@@ -42,6 +41,7 @@
       text-align: center;
       user-select: none;
       transition: transform 0.5s;
+      touch-action: none;
     }
     .lock.up {
       transform: translateY(-100%);
@@ -199,6 +199,7 @@
       transform: scale(0.9);
       pointer-events: none;
       transition: opacity 0.3s, transform 0.3s;
+      touch-action: none;
     }
     .messages.open {
       opacity: 1;
@@ -277,6 +278,8 @@
       transform: translateX(100%);
       pointer-events: none;
       transition: transform 0.3s;
+       display: flex;
+      flex-direction: column;
     }
     .chat.open {
       transform: translateX(0);
@@ -291,6 +294,7 @@
       background: #f9f9f9;
       border-bottom: 1px solid #e5e5ea;
       border-radius: 40px 40px 0 0;
+      flex-shrink: 0;
     }
     .chat-head .msg-avatar {
       width: 32px;
@@ -310,11 +314,17 @@
       cursor: pointer;
     }
     .chat-body {
-      padding: 12px;
+      flex: 1;
+      min-height: 0;
+      overflow-y: auto;
+      touch-action: pan-y;
+      padding: 12px 12px 30px;
       display: flex;
       flex-direction: column;
       gap: 6px;
+      scrollbar-width: none;
     }
+    .chat-body::-webkit-scrollbar { display: none; }
     .bubble {
       max-width: 75%;
       padding: 7px 12px;
@@ -514,11 +524,14 @@
       chat.classList.remove('open');
     };
 
-    // 위로 쓸기: 잠금 해제 / 홈으로
+       // 위로 쓸기: 잠금 해제 / 홈으로
+    let startInChat = false;
     phone.onpointerdown = function (e) {
       startY = e.clientY;
+      startInChat = !!e.target.closest('.chat-body');
     };
     phone.onpointerup = function (e) {
+      if (startInChat) return;   // 채팅 내용 스크롤 중이면 무시
       if (startY - e.clientY > 50) {
         if (messages.classList.contains('open')) {
           chat.classList.remove('open');
