@@ -568,6 +568,7 @@
     .cal.sheet-open .cal-title { margin-top: 48px; font-size: 24px; }
     .cal.sheet-open .cal-month { padding-bottom: 4px; }
     .cal-sheet {
+      transition: transform 0.2s;
       display: none;
       height: 220px;
       flex-shrink: 0;
@@ -580,7 +581,7 @@
       scrollbar-width: none;
     }
     .cal.sheet-open .cal-sheet { display: block; }
-    .sheet-grab { padding: 8px 0 8px; cursor: pointer; }
+    .sheet-grab { padding: 14px 0 12px; cursor: pointer; touch-action: none; }
     .sheet-bar {
       width: 36px;
       height: 4px;
@@ -589,6 +590,7 @@
       margin: 0 auto;
     }
     .sheet-title {
+      touch-action: none;
       font-size: 16px;
       font-weight: 700;
       margin-bottom: 12px;
@@ -1092,7 +1094,37 @@
       selectedCell = null;
       keepMonth(function () { cal.classList.remove('sheet-open'); });
     }
-    document.getElementById('sheetGrab').onclick = closeSheet;
+    const sheet = document.getElementById('calSheet');
+
+    // 아래로 쓸어내리면 일정창 닫기 (회색 막대 / 날짜 제목 부분)
+    function enableSwipeDown(el, tapCloses) {
+      let from = null;
+      function scale() { return phone.getBoundingClientRect().width / 280; }
+      function reset() {
+        from = null;
+        sheet.style.transition = '';
+        sheet.style.transform = '';
+      }
+      el.addEventListener('pointerdown', function (e) {
+        from = e.clientY;
+        sheet.style.transition = 'none';
+        el.setPointerCapture(e.pointerId);
+      });
+      el.addEventListener('pointermove', function (e) {
+        if (from === null) return;
+        const dy = Math.max(0, (e.clientY - from) / scale());
+        sheet.style.transform = 'translateY(' + dy + 'px)';
+      });
+      el.addEventListener('pointerup', function (e) {
+        if (from === null) return;
+        const dy = (e.clientY - from) / scale();
+        reset();
+        if (dy > 30 || (tapCloses && Math.abs(dy) < 6)) closeSheet();
+      });
+      el.addEventListener('pointercancel', reset);
+    }
+    enableSwipeDown(document.getElementById('sheetGrab'), true);
+    enableSwipeDown(sheetTitle, false);
 
     function showDay(cell, y, m, d, dow) {
       if (selectedCell === cell) { closeSheet(); return; }   // 같은 날 또 누르면 닫기
