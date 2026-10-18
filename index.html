@@ -279,7 +279,7 @@
       transform: translateX(100%);
       pointer-events: none;
       transition: transform 0.3s;
-       display: flex;
+      display: flex;
       flex-direction: column;
     }
     .chat.open {
@@ -353,7 +353,7 @@
       position: absolute;
       left: 100%;
       top: 50%;
-      transform: translateY(-50%); 
+      transform: translateY(-50%);
       width: 52px;
       padding-left: 8px;
       box-sizing: border-box;
@@ -365,207 +365,192 @@
       transition: opacity 0.3s;
     }
     .chat-body.dragging .time { transition: none; }
- .chat-input {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 10px 26px;
-  background: white;
-  flex-shrink: 0;
-}
-.plus-btn {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: white;
-  box-shadow: 0 1px 6px rgba(0,0,0,0.15);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-shrink: 0;
-  cursor: pointer;
-}
-.input-wrap {
-  position: relative;
-  flex: 1;
-  min-width: 0;
-  height: 32px;
-  border-radius: 16px;
-  background: white;
-  box-shadow: 0 1px 6px rgba(0,0,0,0.15);
-  display: flex;
-  align-items: center;
-}
-.input-wrap input {
-  flex: 1;
-  width: 100%;
-  min-width: 0;
-  height: 100%;
-  border: none;
-  outline: none;
-  background: transparent;
-  font-family: inherit;
-  font-size: 14px;
-  padding: 0 38px 0 12px;
-  user-select: text;
-  caret-color: #3b86f7;
-}
-.input-wrap input::placeholder {
-  color: #c0c0c5;
-}
-.mic {
-  position: absolute;
-  right: 10px;
-  display: flex;
-}
-.send {
-  position: absolute;
-  right: 3px;
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
-  background: #3b86f7;
-  display: none;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-}
-.input-wrap.typing .mic { display: none; }
-.input-wrap.typing .send { display: flex; }
-   .cal {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border-radius: 40px;
-  background: white;
-  color: black;
-  user-select: none;
-  opacity: 0;
-  transform: scale(0.9);
-  pointer-events: none;
-  transition: opacity 0.3s, transform 0.3s;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-}
-.cal {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border-radius: 40px;
-  background: white;
-  color: black;
-  user-select: none;
-  opacity: 0;
-  transform: scale(0.9);
-  pointer-events: none;
-  transition: opacity 0.3s, transform 0.3s;
-  overflow: hidden;
-}
-.cal.open {
-  opacity: 1;
-  transform: scale(1);
-  pointer-events: auto;
-}
-.cal-scroll {
-  height: 100%;
-  overflow-y: auto;
-  overflow-x: hidden;
-  scroll-snap-type: y mandatory;
-  scrollbar-width: none;
-  overscroll-behavior: contain;
-}
-.cal-scroll::-webkit-scrollbar { display: none; }
-.cal-month {
-  height: 100%;
-  scroll-snap-align: start;
-  display: flex;
-  flex-direction: column;
-  padding-bottom: 22px;
-  box-sizing: border-box;
-}
-.cal-title {
-  margin: 58px 16px 6px;
-  font-size: 30px;
-  font-weight: 800;
-}
-.cal-week {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  text-align: center;
-  font-size: 10px;
-  font-weight: 600;
-  padding-bottom: 4px;
-}
-.cal-week span:first-child,
-.cal-week span:last-child { color: #8e8e93; }
-.cal-grid {
-  flex: 1;
-  min-height: 0;
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-}
-.cal-cell {
-  border-top: 1px solid #e5e5ea;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-top: 4px;
-  min-width: 0;
-}
-.cal-cell.off { color: #8e8e93; }
-.cal-num {
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 17px;
-  font-weight: 600;
-}
-.cal-cell.today .cal-num {
-  background: #ff3b30;
-  color: white;
-}
-.cal-ev {
-  margin-top: 4px;
-  width: calc(100% - 2px);
-  height: 14px;
-  border-radius: 7px;
-  background: #c9e6d6;
-  color: #2d5a3f;
-  font-size: 8px;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  gap: 2px;
-  padding: 0 3px;
-  box-sizing: border-box;
-  white-space: nowrap;
-  overflow: hidden;
-}
-.cal-ev i {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: #3f9a63;
-  flex-shrink: 0;
-}
-.home-zone {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 36px;
-  touch-action: none;
-  z-index: 5;
-}
 
+    /* ===== 채팅 입력창 ===== */
+    .chat-input {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 10px 26px;
+      background: white;
+      flex-shrink: 0;
+    }
+    .plus-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: white;
+      box-shadow: 0 1px 6px rgba(0,0,0,0.15);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-shrink: 0;
+      cursor: pointer;
+    }
+    .input-wrap {
+      position: relative;
+      flex: 1;
+      min-width: 0;
+      height: 32px;
+      border-radius: 16px;
+      background: white;
+      box-shadow: 0 1px 6px rgba(0,0,0,0.15);
+      display: flex;
+      align-items: center;
+    }
+    .input-wrap input {
+      flex: 1;
+      width: 100%;
+      min-width: 0;
+      height: 100%;
+      border: none;
+      outline: none;
+      background: transparent;
+      font-family: inherit;
+      font-size: 14px;
+      padding: 0 38px 0 12px;
+      user-select: text;
+      caret-color: #3b86f7;
+    }
+    .input-wrap input::placeholder {
+      color: #c0c0c5;
+    }
+    .mic {
+      position: absolute;
+      right: 10px;
+      display: flex;
+    }
+    .send {
+      position: absolute;
+      right: 3px;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: #3b86f7;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+    }
+    .input-wrap.typing .mic { display: none; }
+    .input-wrap.typing .send { display: flex; }
+
+    /* ===== 캘린더 ===== */
+    .cal {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 40px;
+      background: white;
+      color: black;
+      user-select: none;
+      opacity: 0;
+      transform: scale(0.9);
+      pointer-events: none;
+      transition: opacity 0.3s, transform 0.3s;
+      overflow: hidden;
+    }
+    .cal.open {
+      opacity: 1;
+      transform: scale(1);
+      pointer-events: auto;
+    }
+    .cal-scroll {
+      height: 100%;
+      overflow-y: auto;
+      overflow-x: hidden;
+      scroll-snap-type: y mandatory;
+      scrollbar-width: none;
+      overscroll-behavior: contain;
+    }
+    .cal-scroll::-webkit-scrollbar { display: none; }
+    .cal-month {
+      height: 100%;
+      scroll-snap-align: start;
+      display: flex;
+      flex-direction: column;
+      padding-bottom: 22px;
+      box-sizing: border-box;
+    }
+    .cal-title {
+      margin: 58px 16px 6px;
+      font-size: 30px;
+      font-weight: 800;
+    }
+    .cal-week {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      text-align: center;
+      font-size: 10px;
+      font-weight: 600;
+      padding-bottom: 4px;
+    }
+    .cal-week span:first-child,
+    .cal-week span:last-child { color: #8e8e93; }
+    .cal-grid {
+      flex: 1;
+      min-height: 0;
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+    }
+    .cal-cell {
+      border-top: 1px solid #e5e5ea;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 4px;
+      min-width: 0;
+    }
+    .cal-cell.off { color: #8e8e93; }
+    .cal-num {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 17px;
+      font-weight: 600;
+    }
+    .cal-cell.today .cal-num {
+      background: #ff3b30;
+      color: white;
+    }
+    .cal-ev {
+      margin-top: 4px;
+      width: calc(100% - 2px);
+      height: 14px;
+      border-radius: 7px;
+      background: #c9e6d6;
+      color: #2d5a3f;
+      font-size: 8px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      padding: 0 3px;
+      box-sizing: border-box;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+    .cal-ev i {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #3f9a63;
+      flex-shrink: 0;
+    }
+    .home-zone {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 36px;
+      touch-action: none;
+      z-index: 5;
+    }
   </style>
 </head>
 <body>
@@ -575,7 +560,7 @@
       <a class="app">
         <img src="https://cdn.discordapp.com/attachments/1161239105489866772/1561423134018769089/BqZSmq8DEIVmrsrM2ZjJFk4Ly7VN2w9eDFvVYWUkt2hI_bMNRo2Fvymz_lDWJ6BUwEQeLXW9T5jxN3hOb_qeN6o6Bm_-VuBr_uryFg5DKs6oVzamsOoqI7iImzoaxB5Z7iza1bHVkSWmcCViFSDmRg.webp?ex=6ad64c1c&is=6ad4fa9c&hm=60abe7b69df9cca358ea2696c94408be7e93f034af8d37033aec92c50144f3e2&">
       </a>
-     <div class="app calendar" id="calApp">
+      <div class="app calendar" id="calApp">
         <div class="day">월요일</div>
         <div class="num">7</div>
       </div>
@@ -608,7 +593,7 @@
     <div class="messages">
       <div class="msg-title">메시지</div>
       <div class="msg-search">검색</div>
-    
+
       <div class="msg-item">
         <div class="msg-avatar">최</div>
         <div class="msg-text">
@@ -626,8 +611,8 @@
         </div>
         <div class="msg-time">14:10</div>
       </div>
-      
-        <div class="msg-item">
+
+      <div class="msg-item">
         <div class="msg-avatar">백</div>
         <div class="msg-text">
           <div class="msg-name">백일몽 주식회사</div>
@@ -645,30 +630,54 @@
       </div>
       <div class="chat-body" id="chatBody"></div>
       <div class="chat-input">
-  <div class="plus-btn">
-    <svg width="14" height="14" viewBox="0 0 14 14" stroke="black" stroke-width="1.8" stroke-linecap="round">
-      <path d="M7 1v12M1 7h12"/>
-    </svg>
-  </div>
-  <div class="input-wrap" id="inputWrap">
-    <input type="text" id="chatInput" placeholder="iMessage">
-    <svg class="mic" width="14" height="18" viewBox="0 0 14 18" fill="none" stroke="#c0c0c5" stroke-width="1.5" stroke-linecap="round">
-      <rect x="4" y="1" width="6" height="10" rx="3"/>
-      <path d="M1.5 8.5a5.5 5.5 0 0 0 11 0M7 14v3"/>
-    </svg>
-    <div class="send" id="sendBtn">
-      <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M6 11V1M1.5 5.5L6 1l4.5 4.5"/>
-      </svg>
+        <div class="plus-btn">
+          <svg width="14" height="14" viewBox="0 0 14 14" stroke="black" stroke-width="1.8" stroke-linecap="round">
+            <path d="M7 1v12M1 7h12"/>
+          </svg>
+        </div>
+        <div class="input-wrap" id="inputWrap">
+          <input type="text" id="chatInput" placeholder="iMessage">
+          <svg class="mic" width="14" height="18" viewBox="0 0 14 18" fill="none" stroke="#c0c0c5" stroke-width="1.5" stroke-linecap="round">
+            <rect x="4" y="1" width="6" height="10" rx="3"/>
+            <path d="M1.5 8.5a5.5 5.5 0 0 0 11 0M7 14v3"/>
+          </svg>
+          <div class="send" id="sendBtn">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 11V1M1.5 5.5L6 1l4.5 4.5"/>
+            </svg>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
 
+    <div class="cal">
+      <div class="cal-scroll" id="calScroll"></div>
+      <div class="home-zone"></div>
     </div>
-<div class="cal">
-  <div class="cal-scroll" id="calScroll"></div>
-  <div class="home-zone"></div>
-</div>
+
+    <div class="island"></div>
+    <div class="bar"></div>
+    <div class="status">
+      <span>21:17</span>
+      <span class="icons">
+        <svg width="18" height="12" viewBox="0 0 18 12" fill="currentColor">
+          <rect y="8" width="3" height="4" rx="1"/>
+          <rect x="5" y="5.5" width="3" height="6.5" rx="1"/>
+          <rect x="10" y="3" width="3" height="9" rx="1"/>
+          <rect x="15" width="3" height="12" rx="1"/>
+        </svg>
+        <svg width="16" height="12" viewBox="0 0 16 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <path d="M1 4.5a10 10 0 0 1 14 0M3.5 7.3a6.5 6.5 0 0 1 9 0"/>
+          <circle cx="8" cy="10" r="0.8" fill="currentColor"/>
+        </svg>
+        <svg width="27" height="12" viewBox="0 0 27 12">
+          <rect x="0.5" y="0.5" width="23" height="11" rx="3.5" fill="none" stroke="currentColor" opacity="0.4"/>
+          <rect x="2" y="2" width="5" height="8" rx="2" fill="currentColor"/>
+          <path d="M25 4v4c0.8-0.3 1.5-1.1 1.5-2S25.8 4.3 25 4z" fill="currentColor" opacity="0.5"/>
+        </svg>
+      </span>
+    </div>
+
   </div>
 
   <script>
@@ -840,7 +849,7 @@
 
         const body = document.getElementById('chatBody');
         body.innerHTML = '';
-          chats[i].forEach(function (m) {
+        chats[i].forEach(function (m) {
           const row = document.createElement('div');
           row.className = 'row ' + m[0];
 
@@ -858,7 +867,7 @@
         });
 
         chat.classList.add('open');
-         body.scrollTop = body.scrollHeight;
+        body.scrollTop = body.scrollHeight;
         requestAnimationFrame(function () { body.scrollTop = body.scrollHeight; });
       };
     });
@@ -868,38 +877,40 @@
       chat.classList.remove('open');
     };
 
-       // 위로 쓸기: 잠금 해제 / 홈으로
+    // 위로 쓸기: 잠금 해제 / 홈으로
     let startInChat = false;
     let startBottom = false;
-phone.onpointerdown = function (e) {
-  startY = e.clientY;
-  startInChat = !!e.target.closest('.chat-body');
-  startBottom = !!(e.target.closest('.home-zone') || e.target.closest('.bar'));
-};
-phone.onpointerup = function (e) {
-  if (startInChat) return;
-  if (startY - e.clientY > 50) {
-    if (cal.classList.contains('open')) {
-      if (!startBottom) return;
-      cal.classList.remove('open');
-      phone.classList.remove('in-msg');
-    } else if (messages.classList.contains('open')) {
-      chat.classList.remove('open');
-      messages.classList.remove('open');
-      phone.classList.remove('in-msg');
-    } else {
-      lock.classList.add('up');
-    }
-  }
-};
-          // 화면 크기에 맞춰 폰 크게 키우기
+    phone.onpointerdown = function (e) {
+      startY = e.clientY;
+      startInChat = !!e.target.closest('.chat-body');
+      startBottom = !!(e.target.closest('.home-zone') || e.target.closest('.bar'));
+    };
+    phone.onpointerup = function (e) {
+      if (startInChat) return;
+      if (startY - e.clientY > 50) {
+        if (cal.classList.contains('open')) {
+          if (!startBottom) return;   // 캘린더는 언더바에서 시작한 쓸기만 인정
+          cal.classList.remove('open');
+          phone.classList.remove('in-msg');
+        } else if (messages.classList.contains('open')) {
+          chat.classList.remove('open');
+          messages.classList.remove('open');
+          phone.classList.remove('in-msg');
+        } else {
+          lock.classList.add('up');
+        }
+      }
+    };
+
+    // 화면 크기에 맞춰 폰 크게 키우기
     function fitPhone() {
       const s = Math.min(window.innerWidth / 280, window.innerHeight / 600) * 0.95;
       phone.style.transform = 'scale(' + s + ')';
     }
     fitPhone();
     window.addEventListener('resize', fitPhone);
-                           // 왼쪽으로 밀면 시간 보이기
+
+    // 왼쪽으로 밀면 시간 보이기
     const chatBodyEl = document.getElementById('chatBody');
     let sx = 0, sy = 0, dragging = false, locked = false;
 
@@ -932,121 +943,125 @@ phone.onpointerup = function (e) {
     chatBodyEl.addEventListener('pointerup', endDrag);
     chatBodyEl.addEventListener('pointercancel', endDrag);
     chatBodyEl.addEventListener('pointerleave', endDrag);
-const inputWrap = document.getElementById('inputWrap');
-const chatInput = document.getElementById('chatInput');
-const sendBtn = document.getElementById('sendBtn');
 
-// 글자 있으면 마이크 → 전송 버튼
-chatInput.addEventListener('input', function () {
-  inputWrap.classList.toggle('typing', chatInput.value.trim() !== '');
-});
+    // ===== 채팅 입력창 =====
+    const inputWrap = document.getElementById('inputWrap');
+    const chatInput = document.getElementById('chatInput');
+    const sendBtn = document.getElementById('sendBtn');
 
-function sendMsg() {
-  const text = chatInput.value.trim();
-  if (!text) return;
+    // 글자 있으면 마이크 → 전송 버튼
+    chatInput.addEventListener('input', function () {
+      inputWrap.classList.toggle('typing', chatInput.value.trim() !== '');
+    });
 
-  const row = document.createElement('div');
-  row.className = 'row out';
-  const bubble = document.createElement('div');
-  bubble.className = 'bubble';
-  bubble.textContent = text;
-  const time = document.createElement('div');
-  time.className = 'time';
-  time.textContent = '21:17';   // 폰 시간에 맞춰 바꿔줘
-  row.appendChild(bubble);
-  row.appendChild(time);
+    function sendMsg() {
+      const text = chatInput.value.trim();
+      if (!text) return;
 
-  const body = document.getElementById('chatBody');
-  body.appendChild(row);
-  body.scrollTop = body.scrollHeight;
+      const row = document.createElement('div');
+      row.className = 'row out';
+      const bubble = document.createElement('div');
+      bubble.className = 'bubble';
+      bubble.textContent = text;
+      const time = document.createElement('div');
+      time.className = 'time';
+      time.textContent = '21:17';   // 폰 시간에 맞춰 바꿔줘
+      row.appendChild(bubble);
+      row.appendChild(time);
 
-  chatInput.value = '';
-  inputWrap.classList.remove('typing');
-}
+      const body = document.getElementById('chatBody');
+      body.appendChild(row);
+      body.scrollTop = body.scrollHeight;
 
-sendBtn.onclick = sendMsg;
-chatInput.addEventListener('keydown', function (e) {
-  if (e.key === 'Enter') sendMsg();
-});
-const cal = document.querySelector('.cal');
-const calApp = document.getElementById('calApp');
-const scroller = document.getElementById('calScroll');
-
-// 일정: '년-월-일': '이름'  (여기만 고치면 돼!)
-const events = {
-  '2026-9-24': '추석 연휴',
-  '2026-9-25': '추석',
-  '2026-9-26': '추석 연휴',
-};
-const today = '2026-9-7';                    // 빨간 동그라미 날짜
-const firstYear = 2026, firstMonth = 0;      // 시작: 2026년 1월 (0 = 1월)
-const monthCount = 12;                       // 몇 달치 만들지
-
-const dayNames = ['일', '월', '화', '수', '목', '금', '토'];
-
-for (let n = 0; n < monthCount; n++) {
-  const y = firstYear + Math.floor((firstMonth + n) / 12);
-  const m = (firstMonth + n) % 12;
-  const offset = new Date(y, m, 1).getDay();
-  const lastDay = new Date(y, m + 1, 0).getDate();
-  const rows = Math.ceil((offset + lastDay) / 7);
-
-  const box = document.createElement('div');
-  box.className = 'cal-month';
-
-  const title = document.createElement('div');
-  title.className = 'cal-title';
-  title.textContent = (y === firstYear ? '' : y + '년 ') + (m + 1) + '월';
-  box.appendChild(title);
-
-  const week = document.createElement('div');
-  week.className = 'cal-week';
-  week.innerHTML = dayNames.map(function (d) { return '<span>' + d + '</span>'; }).join('');
-  box.appendChild(week);
-
-  const grid = document.createElement('div');
-  grid.className = 'cal-grid';
-  grid.style.gridTemplateRows = 'repeat(' + rows + ', 1fr)';
-
-  for (let i = 0; i < offset; i++) {
-    const blank = document.createElement('div');
-    blank.className = 'cal-cell';
-    grid.appendChild(blank);
-  }
-  for (let d = 1; d <= lastDay; d++) {
-    const key = y + '-' + (m + 1) + '-' + d;
-    const cell = document.createElement('div');
-    cell.className = 'cal-cell';
-    const dow = (offset + d - 1) % 7;
-    if (dow === 0 || dow === 6) cell.classList.add('off');
-    if (key === today) cell.classList.add('today');
-
-    const num = document.createElement('div');
-    num.className = 'cal-num';
-    num.textContent = d;
-    cell.appendChild(num);
-
-    if (events[key]) {
-      const ev = document.createElement('div');
-      ev.className = 'cal-ev';
-      ev.innerHTML = '<i></i>' + events[key];
-      cell.appendChild(ev);
+      chatInput.value = '';
+      inputWrap.classList.remove('typing');
     }
-    grid.appendChild(cell);
-  }
-  box.appendChild(grid);
-  scroller.appendChild(box);
-}
 
-// 처음엔 오늘이 있는 달로 이동
-const t = today.split('-');
-const idx = (Number(t[0]) - firstYear) * 12 + (Number(t[1]) - 1) - firstMonth;
-scroller.scrollTop = idx * scroller.clientHeight;
+    sendBtn.onclick = sendMsg;
+    chatInput.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') sendMsg();
+    });
 
-calApp.onclick = function () {
-  cal.classList.add('open');
-  phone.classList.add('in-msg');
-};
-    </script>
+    // ===== 캘린더 =====
+    const cal = document.querySelector('.cal');
+    const calApp = document.getElementById('calApp');
+    const scroller = document.getElementById('calScroll');
+
+    // 일정: '년-월-일': '이름'  (여기만 고치면 돼!)
+    const events = {
+      '2026-9-24': '추석 연휴',
+      '2026-9-25': '추석',
+      '2026-9-26': '추석 연휴',
+    };
+    const today = '2026-9-7';                    // 빨간 동그라미 날짜
+    const firstYear = 2026, firstMonth = 0;      // 시작: 2026년 1월 (0 = 1월)
+    const monthCount = 12;                       // 몇 달치 만들지
+
+    const dayNames = ['일', '월', '화', '수', '목', '금', '토'];
+
+    for (let n = 0; n < monthCount; n++) {
+      const y = firstYear + Math.floor((firstMonth + n) / 12);
+      const m = (firstMonth + n) % 12;
+      const offset = new Date(y, m, 1).getDay();
+      const lastDay = new Date(y, m + 1, 0).getDate();
+      const rows = Math.ceil((offset + lastDay) / 7);
+
+      const box = document.createElement('div');
+      box.className = 'cal-month';
+
+      const title = document.createElement('div');
+      title.className = 'cal-title';
+      title.textContent = (y === firstYear ? '' : y + '년 ') + (m + 1) + '월';
+      box.appendChild(title);
+
+      const week = document.createElement('div');
+      week.className = 'cal-week';
+      week.innerHTML = dayNames.map(function (d) { return '<span>' + d + '</span>'; }).join('');
+      box.appendChild(week);
+
+      const grid = document.createElement('div');
+      grid.className = 'cal-grid';
+      grid.style.gridTemplateRows = 'repeat(' + rows + ', 1fr)';
+
+      for (let i = 0; i < offset; i++) {
+        const blank = document.createElement('div');
+        blank.className = 'cal-cell';
+        grid.appendChild(blank);
+      }
+      for (let d = 1; d <= lastDay; d++) {
+        const key = y + '-' + (m + 1) + '-' + d;
+        const cell = document.createElement('div');
+        cell.className = 'cal-cell';
+        const dow = (offset + d - 1) % 7;
+        if (dow === 0 || dow === 6) cell.classList.add('off');
+        if (key === today) cell.classList.add('today');
+
+        const num = document.createElement('div');
+        num.className = 'cal-num';
+        num.textContent = d;
+        cell.appendChild(num);
+
+        if (events[key]) {
+          const ev = document.createElement('div');
+          ev.className = 'cal-ev';
+          ev.innerHTML = '<i></i>' + events[key];
+          cell.appendChild(ev);
+        }
+        grid.appendChild(cell);
+      }
+      box.appendChild(grid);
+      scroller.appendChild(box);
+    }
+
+    // 처음엔 오늘이 있는 달로 이동
+    const t = today.split('-');
+    const idx = (Number(t[0]) - firstYear) * 12 + (Number(t[1]) - 1) - firstMonth;
+    scroller.scrollTop = idx * scroller.clientHeight;
+
+    calApp.onclick = function () {
+      cal.classList.add('open');
+      phone.classList.add('in-msg');
+    };
+  </script>
 </body>
 </html>
