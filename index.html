@@ -326,6 +326,19 @@
       scrollbar-width: none;
     }
     .chat-body::-webkit-scrollbar { display: none; }
+      
+       .row {
+      position: relative;
+      display: flex;
+      transition: transform 0.2s;
+    }
+    .row.in  { justify-content: flex-start; }
+    .row.out {
+      justify-content: flex-end;
+      transform: translateX(calc(var(--dx, 0) * -1px));
+    }
+    .chat-body.dragging .row { transition: none; }
+
     .bubble {
       max-width: 75%;
       padding: 7px 12px;
@@ -334,15 +347,27 @@
       line-height: 1.3;
       white-space: pre-wrap;
     }
-    .bubble.in {
-      background: #e9e9eb;
-      align-self: flex-start;
+    .row.in .bubble  { background: #e9e9eb; }
+    .row.out .bubble { background: #007aff; color: white; }
+
+    .time {
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 52px;
+      text-align: right;
+      font-size: 11px;
+      color: #8e8e93;
+      white-space: nowrap;
+      pointer-events: none;
+      opacity: calc(var(--dx, 0) / 52);
+      transition: opacity 0.2s;
     }
-    .bubble.out {
-      background: #007aff;
-      color: white;
-      align-self: flex-end;
-    }
+    .chat-body.dragging .time {
+        transition: none;
+        overflow-x: hidden;
+        }
   </style>
 </head>
 <body>
@@ -399,7 +424,7 @@
         <div class="msg-avatar">최</div>
         <div class="msg-text">
           <div class="msg-name">최요원</div>
-          <div class="msg-preview">공주 오늘 퇴근 언제야</div>
+          <div class="msg-preview">공ㅠㅠ 저녁 같이 먹고 싶은데</div>
         </div>
         <div class="msg-time">오후 6:42</div>
       </div>
@@ -492,7 +517,7 @@
 구매 내역 및 포인트 잔액은 사내 복지몰 마이페이지에서 확인하실 수 있습니다.
 
 백일몽 주식회사는 임직원의 건강하고 편안한 일상을 응원합니다.
-감사합니다.`],
+감사합니다.`, '11:21'],
         ['in', `[백일몽 주식회사 | 복지몰 구매 안내]
 
 안녕하세요, 백일몽 주식회사 복지지원팀입니다.
@@ -508,7 +533,7 @@
 구매 내역 및 포인트 잔액은 사내 복지몰 마이페이지에서 확인하실 수 있습니다.
 
 백일몽 주식회사는 임직원의 건강하고 편안한 일상을 응원합니다.
-감사합니다.`],
+감사합니다.`, '14:52'],
         ['in', `[백일몽 주식회사 | 복지몰 구매 안내]
 
 안녕하세요, 백일몽 주식회사 복지지원팀입니다.
@@ -524,7 +549,7 @@
 구매 내역 및 포인트 잔액은 사내 복지몰 마이페이지에서 확인하실 수 있습니다.
 
 백일몽 주식회사는 임직원의 건강하고 편안한 일상을 응원합니다.
-감사합니다.`],
+감사합니다.`, '09:02'],
         ['in', `[백일몽 주식회사 | 복지몰 구매 안내]
 
 안녕하세요, 백일몽 주식회사 복지지원팀입니다.
@@ -540,7 +565,7 @@
 구매 내역 및 포인트 잔액은 사내 복지몰 마이페이지에서 확인하실 수 있습니다.
 
 백일몽 주식회사는 임직원의 건강하고 편안한 일상을 응원합니다.
-감사합니다.`],
+감사합니다.`, '15:20'],
         ['in', `[백일몽 주식회사 | 복지몰 구매 안내]
 
 안녕하세요, 백일몽 주식회사 복지지원팀입니다.
@@ -556,7 +581,7 @@
 구매 내역 및 포인트 잔액은 사내 복지몰 마이페이지에서 확인하실 수 있습니다.
 
 백일몽 주식회사는 임직원의 건강하고 편안한 일상을 응원합니다.
-감사합니다.`],
+감사합니다.`, '17:56'],
         ['in', `[백일몽 주식회사 | 복지몰 구매 안내]
 
 안녕하세요, 백일몽 주식회사 복지지원팀입니다.
@@ -572,7 +597,7 @@
 구매 내역 및 포인트 잔액은 사내 복지몰 마이페이지에서 확인하실 수 있습니다.
 
 백일몽 주식회사는 임직원의 건강하고 편안한 일상을 응원합니다.
-감사합니다.`],
+감사합니다.`, '12:51'],
         ['in', `[백일몽 주식회사 | 복지몰 구매 안내]
 
 안녕하세요, 백일몽 주식회사 복지지원팀입니다.
@@ -588,13 +613,13 @@
 구매 내역 및 포인트 잔액은 사내 복지몰 마이페이지에서 확인하실 수 있습니다.
 
 백일몽 주식회사는 임직원의 건강하고 편안한 일상을 응원합니다.
-감사합니다.`],
+감사합니다.`, '14:47'],
       ],
       // 최요원
       [
-        ['in', '공주 오늘 퇴근 언제야'],
-        ['out', 'ㅁㄹ 늦을 듯'],
-        ['in', 'ㅠㅠ 저녁 같이 먹고 싶은데'],
+        ['in', '공주 오늘 퇴근 언제야', '18:42'],
+        ['out', 'ㅁㄹ 늦을 듯', '18:48'],
+        ['in', 'ㅠㅠ 저녁 같이 먹고 싶은데', '19:13'],
       ],
       // 백석주 팀장님
       [
@@ -617,11 +642,21 @@
 
         const body = document.getElementById('chatBody');
         body.innerHTML = '';
-        chats[i].forEach(function (m) {
+          chats[i].forEach(function (m) {
+          const row = document.createElement('div');
+          row.className = 'row ' + m[0];
+
           const bubble = document.createElement('div');
-          bubble.className = 'bubble ' + m[0];
+          bubble.className = 'bubble';
           bubble.textContent = m[1];
-          body.appendChild(bubble);
+
+          const time = document.createElement('div');
+          time.className = 'time';
+          time.textContent = m[2] || '';
+
+          row.appendChild(bubble);
+          row.appendChild(time);
+          body.appendChild(row);
         });
 
         chat.classList.add('open');
@@ -660,6 +695,39 @@
     }
     fitPhone();
     window.addEventListener('resize', fitPhone);
+                           // 왼쪽으로 밀면 시간 보이기
+    const chatBodyEl = document.getElementById('chatBody');
+    let sx = 0, sy = 0, dragging = false, locked = false;
+
+    chatBodyEl.addEventListener('pointerdown', function (e) {
+      sx = e.clientX;
+      sy = e.clientY;
+      dragging = true;
+      locked = false;
+    });
+    chatBodyEl.addEventListener('pointermove', function (e) {
+      if (!dragging) return;
+      const dx = e.clientX - sx;
+      const dy = e.clientY - sy;
+      if (!locked && Math.abs(dx) > 6 && Math.abs(dx) > Math.abs(dy)) {
+        locked = true;
+        chatBodyEl.classList.add('dragging');
+      }
+      if (locked) {
+        const k = phone.getBoundingClientRect().width / 280;   // 폰 확대 비율 보정
+        const v = Math.max(0, Math.min(52, -dx / k));
+        chatBodyEl.style.setProperty('--dx', v);
+      }
+    });
+    function endDrag() {
+      dragging = false;
+      locked = false;
+      chatBodyEl.classList.remove('dragging');
+      chatBodyEl.style.setProperty('--dx', 0);
+    }
+    chatBodyEl.addEventListener('pointerup', endDrag);
+    chatBodyEl.addEventListener('pointercancel', endDrag);
+    chatBodyEl.addEventListener('pointerleave', endDrag);
   </script>
 </body>
 </html>
