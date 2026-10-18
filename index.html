@@ -451,6 +451,8 @@
       pointer-events: none;
       transition: opacity 0.3s, transform 0.3s;
       overflow: hidden;
+      display: flex;
+      flex-direction: column;
     }
     .cal.open {
       opacity: 1;
@@ -458,7 +460,8 @@
       pointer-events: auto;
     }
     .cal-scroll {
-      height: 100%;
+      flex: 1;
+      min-height: 0;
       overflow-y: auto;
       overflow-x: hidden;
       scroll-snap-type: y mandatory;
@@ -551,6 +554,69 @@
       touch-action: none;
       z-index: 5;
     }
+
+    /* ===== 날짜 눌렀을 때 아래에 뜨는 일정창 ===== */
+    .cal-cell { cursor: pointer; overflow: hidden; }
+    .cal-cell.selected .cal-num { background: #1c1c1e; color: white; }
+    .cal-cell.today .cal-num { background: #ff3b30; color: white; }
+    .cal-more {
+      margin-top: 2px;
+      font-size: 8px;
+      color: #8e8e93;
+      line-height: 1;
+    }
+    .cal.sheet-open .cal-title { margin-top: 48px; font-size: 24px; }
+    .cal.sheet-open .cal-month { padding-bottom: 4px; }
+    .cal-sheet {
+      display: none;
+      height: 220px;
+      flex-shrink: 0;
+      background: white;
+      border-radius: 22px 22px 0 0;
+      box-shadow: 0 -2px 12px rgba(0,0,0,0.08);
+      padding: 0 16px 34px;
+      box-sizing: border-box;
+      overflow-y: auto;
+      scrollbar-width: none;
+    }
+    .cal.sheet-open .cal-sheet { display: block; }
+    .sheet-grab { padding: 8px 0 8px; cursor: pointer; }
+    .sheet-bar {
+      width: 36px;
+      height: 4px;
+      border-radius: 2px;
+      background: #d1d1d6;
+      margin: 0 auto;
+    }
+    .sheet-title {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .ev-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 14px;
+      align-items: stretch;
+    }
+    .ev-time {
+      width: 34px;
+      flex-shrink: 0;
+      font-size: 11px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .ev-time b { font-weight: 600; color: #1c1c1e; }
+    .ev-time span { color: #8e8e93; }
+    .ev-bar {
+      width: 3px;
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+    .ev-title { font-size: 14px; font-weight: 600; }
+    .ev-memo { font-size: 11px; color: #8e8e93; margin-top: 2px; }
+    .ev-empty { font-size: 13px; color: #8e8e93; }
   </style>
 </head>
 <body>
@@ -652,6 +718,11 @@
 
     <div class="cal">
       <div class="cal-scroll" id="calScroll"></div>
+      <div class="cal-sheet" id="calSheet">
+        <div class="sheet-grab" id="sheetGrab"><div class="sheet-bar"></div></div>
+        <div class="sheet-title" id="sheetTitle"></div>
+        <div id="sheetList"></div>
+      </div>
       <div class="home-zone"></div>
     </div>
 
@@ -988,16 +1059,98 @@
     const scroller = document.getElementById('calScroll');
 
     // 일정: '년-월-일': '이름'  (여기만 고치면 돼!)
+    // 일정 추가하는 법: 아래처럼 한 줄 추가하면 돼!
+    //   '년-월-일': [ { title:'제목', start:'12:00', end:'18:00', color:'#007aff', memo:'메모' } ],
+    // - start, end를 빼면 '종일'로 나와
+    // - color, memo는 안 써도 돼 (color는 #abcdef 6자리로)
+    // - 같은 날 일정이 여러 개면 { } 를 쉼표로 이어 붙이면 돼
     const events = {
-      '2026-9-24': '추석 연휴',
-      '2026-9-25': '추석',
-      '2026-9-26': '추석 연휴',
+      '2026-9-24': [ { title: '추석 연휴' } ],
+      '2026-9-25': [ { title: '추석' } ],
+      '2026-9-26': [ { title: '추석 연휴' } ],
     };
+    const DEFAULT_COLOR = '#3f9a63';
     const today = '2026-9-7';                    // 빨간 동그라미 날짜
     const firstYear = 2026, firstMonth = 0;      // 시작: 2026년 1월 (0 = 1월)
     const monthCount = 12;                       // 몇 달치 만들지
 
     const dayNames = ['일', '월', '화', '수', '목', '금', '토'];
+
+    // ===== 날짜 누르면 일정창 =====
+    const sheetTitle = document.getElementById('sheetTitle');
+    const sheetList = document.getElementById('sheetList');
+    let selectedCell = null;
+
+    // 일정창이 열리고 닫혀서 높이가 바뀌어도 보던 달 그대로 유지
+    function keepMonth(change) {
+      const i = Math.round(scroller.scrollTop / scroller.clientHeight);
+      change();
+      scroller.scrollTop = i * scroller.clientHeight;
+    }
+    function closeSheet() {
+      if (selectedCell) selectedCell.classList.remove('selected');
+      selectedCell = null;
+      keepMonth(function () { cal.classList.remove('sheet-open'); });
+    }
+    document.getElementById('sheetGrab').onclick = closeSheet;
+
+    function showDay(cell, y, m, d, dow) {
+      if (selectedCell === cell) { closeSheet(); return; }   // 같은 날 또 누르면 닫기
+      if (selectedCell) selectedCell.classList.remove('selected');
+      selectedCell = cell;
+      cell.classList.add('selected');
+
+      sheetTitle.textContent = (m + 1) + '월 ' + d + '일 ' + dayNames[dow] + '요일';
+      sheetList.innerHTML = '';
+
+      const list = events[y + '-' + (m + 1) + '-' + d] || [];
+      if (list.length === 0) {
+        const empty = document.createElement('div');
+        empty.className = 'ev-empty';
+        empty.textContent = '일정 없음';
+        sheetList.appendChild(empty);
+      }
+      list.forEach(function (e) {
+        const row = document.createElement('div');
+        row.className = 'ev-row';
+
+        const time = document.createElement('div');
+        time.className = 'ev-time';
+        const t1 = document.createElement('b');
+        t1.textContent = e.start || '종일';
+        time.appendChild(t1);
+        if (e.start && e.end) {
+          const t2 = document.createElement('span');
+          t2.textContent = e.end;
+          time.appendChild(t2);
+        }
+
+        const bar = document.createElement('div');
+        bar.className = 'ev-bar';
+        bar.style.background = e.color || DEFAULT_COLOR;
+
+        const text = document.createElement('div');
+        const title = document.createElement('div');
+        title.className = 'ev-title';
+        title.textContent = e.title;
+        text.appendChild(title);
+        if (e.memo) {
+          const memo = document.createElement('div');
+          memo.className = 'ev-memo';
+          memo.textContent = e.memo;
+          text.appendChild(memo);
+        }
+
+        row.appendChild(time);
+        row.appendChild(bar);
+        row.appendChild(text);
+        sheetList.appendChild(row);
+      });
+
+      if (!cal.classList.contains('sheet-open')) {
+        keepMonth(function () { cal.classList.add('sheet-open'); });
+      }
+    }
 
     for (let n = 0; n < monthCount; n++) {
       const y = firstYear + Math.floor((firstMonth + n) / 12);
@@ -1041,12 +1194,26 @@
         num.textContent = d;
         cell.appendChild(num);
 
-        if (events[key]) {
-          const ev = document.createElement('div');
-          ev.className = 'cal-ev';
-          ev.innerHTML = '<i></i>' + events[key];
-          cell.appendChild(ev);
+        const list = events[key] || [];
+        if (list.length > 0) {
+          const first = list[0];
+          const c = first.color || DEFAULT_COLOR;
+          const chip = document.createElement('div');
+          chip.className = 'cal-ev';
+          chip.style.background = c + '40';
+          const dot = document.createElement('i');
+          dot.style.background = c;
+          chip.appendChild(dot);
+          chip.appendChild(document.createTextNode(first.title));
+          cell.appendChild(chip);
+          if (list.length > 1) {
+            const more = document.createElement('div');
+            more.className = 'cal-more';
+            more.textContent = '+' + (list.length - 1);
+            cell.appendChild(more);
+          }
         }
+        cell.onclick = function () { showDay(cell, y, m, d, dow); };
         grid.appendChild(cell);
       }
       box.appendChild(grid);
