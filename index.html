@@ -154,6 +154,28 @@
       cursor: pointer;
       overflow: hidden;
     }
+        .calendar {
+      container-type: size;
+      background: linear-gradient(#ffffff, #f0f0f0);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 2cqw;
+      cursor: pointer;
+    }
+    .calendar .day {
+      font-size: 19cqw;
+      font-weight: 700;
+      color: #1c1c1e;
+      line-height: 1;
+    }
+    .calendar .num {
+      font-size: 58cqw;
+      font-weight: 300;
+      color: #333;
+      line-height: 1;
+    }
     .app img {
       width: 100%;
       height: 100%;
@@ -167,7 +189,10 @@
 
     <div class="dock">
       <div class="app"></div>
-      <div class="app"></div>
+      <div class="app calendar">
+          <div class="day">월요일</div>
+          <div class="num">7</div>
+    </div>
       <a class="app">
       <img src="https://cdn.discordapp.com/attachments/1161239105489866772/1561414546885836890/png-clipart-computer-icons-imessage-imessage-leaf-logo-thumbnail.png?ex=6ad6441d&is=6ad4f29d&hm=e07576a2f1593937e0522d02fe4365644e81e1beaa08f417ac172d2cf0ac4670&">
        </a>
@@ -232,7 +257,5 @@
       }
     };
   </script>
-</body>
-</html>
 </body>
 </html>
