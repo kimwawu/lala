@@ -227,6 +227,7 @@
       align-items: center;
       gap: 10px;
       padding: 9px 16px;
+      cursor: pointer;
     }
     .msg-avatar {
       width: 40px;
@@ -234,7 +235,7 @@
       border-radius: 50%;
       background: linear-gradient(#a5aab5, #858a95);
       flex-shrink: 0;
-      display: flex;            
+      display: flex;
       justify-content: center;
       align-items: center;
       color: white;
@@ -262,7 +263,6 @@
     }
     .phone.in-msg .status { color: black; }
     .phone.in-msg .bar { background: black; }
-          .msg-item { cursor: pointer; }
 
     .chat {
       position: absolute;
@@ -401,18 +401,16 @@
         <div class="msg-time">어제</div>
       </div>
     </div>
+
     <div class="chat">
       <div class="chat-head">
         <div class="chat-back">‹ 메시지</div>
-        <div class="msg-avatar" id="chatAvatar">친</div>
-        <div class="chat-name" id="chatName">친구1</div>
+        <div class="msg-avatar" id="chatAvatar">백</div>
+        <div class="chat-name" id="chatName">백일몽 주식회사</div>
       </div>
-      <div class="chat-body">
-        <div class="bubble out">안녕!</div>
-        <div class="bubble in" id="chatLast">오늘 저녁에 뭐해?</div>
-        <div class="bubble out">아직 계획 없어</div>
-      </div>
+      <div class="chat-body" id="chatBody"></div>
     </div>
+
     <div class="island"></div>
     <div class="bar"></div>
     <div class="status">
@@ -442,52 +440,65 @@
     const phone = document.querySelector('.phone');
     const lock = document.querySelector('.lock');
     const messages = document.querySelector('.messages');
-    const msgApp = document.getElementById('msgApp');
-    let startY = 0;
-
-    msgApp.onclick = function () {
-      messages.classList.add('open');
-      phone.classList.add('in-msg');
-    };
-
-    phone.onpointerdown = function (e) {
-      startY = e.clientY;
-    };
-    phone.onpointerup = function (e) {
-      if (startY - e.clientY > 50) {
-        if (messages.classList.contains('open')) {
-          messages.classList.remove('open');
-          phone.classList.remove('in-msg');
-        } else {
-          lock.classList.add('up');
-        }
-      }
-    };
-          const phone = document.querySelector('.phone');
-    const lock = document.querySelector('.lock');
-    const messages = document.querySelector('.messages');
     const chat = document.querySelector('.chat');
     const msgApp = document.getElementById('msgApp');
     let startY = 0;
 
+    // 대화 내용 (목록 위에서부터 순서대로)
+    // 'in' = 받은 말풍선(회색), 'out' = 보낸 말풍선(파란색)
+    const chats = [
+      // 백일몽 주식회사
+      [
+        ['in', '[백일몽 주식회사 | 복지몰 구매 안내]'],
+        ['in', '안녕하세요, 백일몽 주식회사입니다.'],
+        ['in', '복지몰 구매가 정상적으로 접수되었습니다.'],
+        ['out', '확인했습니다. 감사합니다!'],
+      ],
+      // 친구2
+      [
+        ['in', 'ㅋㅋㅋㅋ 그거 봤어?'],
+        ['out', '뭐?'],
+        ['in', '방금 올라온 거'],
+      ],
+      // 엄마
+      [
+        ['in', '밥 먹었니?'],
+        ['out', '응 먹었어'],
+        ['in', '일찍 자라'],
+      ],
+    ];
+
+    // 3번째 네모 누르면 메시지 목록 열기
     msgApp.onclick = function () {
       messages.classList.add('open');
       phone.classList.add('in-msg');
     };
 
-    document.querySelectorAll('.msg-item').forEach(function (item) {
+    // 대화 누르면 채팅 화면 열기
+    document.querySelectorAll('.msg-item').forEach(function (item, i) {
       item.onclick = function () {
         document.getElementById('chatAvatar').textContent = item.querySelector('.msg-avatar').textContent;
         document.getElementById('chatName').textContent = item.querySelector('.msg-name').textContent;
-        document.getElementById('chatLast').textContent = item.querySelector('.msg-preview').textContent;
+
+        const body = document.getElementById('chatBody');
+        body.innerHTML = '';
+        chats[i].forEach(function (m) {
+          const bubble = document.createElement('div');
+          bubble.className = 'bubble ' + m[0];
+          bubble.textContent = m[1];
+          body.appendChild(bubble);
+        });
+
         chat.classList.add('open');
       };
     });
 
+    // 뒤로가기
     document.querySelector('.chat-back').onclick = function () {
       chat.classList.remove('open');
     };
 
+    // 위로 쓸기: 잠금 해제 / 홈으로
     phone.onpointerdown = function (e) {
       startY = e.clientY;
     };
