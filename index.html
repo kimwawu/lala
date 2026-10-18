@@ -365,7 +365,72 @@
       transition: opacity 0.3s;
     }
     .chat-body.dragging .time { transition: none; }
-  </style>
+ .chat-input {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px 26px;
+  background: white;
+  flex-shrink: 0;
+}
+.plus-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: white;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.15);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+.input-wrap {
+  position: relative;
+  flex: 1;
+  height: 32px;
+  border-radius: 16px;
+  background: white;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.15);
+  display: flex;
+  align-items: center;
+}
+.input-wrap input {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: inherit;
+  font-size: 14px;
+  padding: 0 38px 0 12px;
+  user-select: text;
+  caret-color: #3b86f7;
+}
+.input-wrap input::placeholder {
+  color: #c0c0c5;
+}
+.mic {
+  position: absolute;
+  right: 10px;
+  display: flex;
+}
+.send {
+  position: absolute;
+  right: 3px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #3b86f7;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+.input-wrap.typing .mic { display: none; }
+.input-wrap.typing .send { display: flex; }
+   </style>
 </head>
 <body>
   <div class="phone">
@@ -443,6 +508,26 @@
         <div class="chat-name" id="chatName">백일몽 주식회사</div>
       </div>
       <div class="chat-body" id="chatBody"></div>
+      <div class="chat-input">
+  <div class="plus-btn">
+    <svg width="14" height="14" viewBox="0 0 14 14" stroke="black" stroke-width="1.8" stroke-linecap="round">
+      <path d="M7 1v12M1 7h12"/>
+    </svg>
+  </div>
+  <div class="input-wrap" id="inputWrap">
+    <input type="text" id="chatInput" placeholder="iMessage">
+    <svg class="mic" width="14" height="18" viewBox="0 0 14 18" fill="none" stroke="#c0c0c5" stroke-width="1.5" stroke-linecap="round">
+      <rect x="4" y="1" width="6" height="10" rx="3"/>
+      <path d="M1.5 8.5a5.5 5.5 0 0 0 11 0M7 14v3"/>
+    </svg>
+    <div class="send" id="sendBtn">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M6 11V1M1.5 5.5L6 1l4.5 4.5"/>
+      </svg>
+    </div>
+  </div>
+</div>
+
     </div>
 
     <div class="island"></div>
@@ -725,6 +810,42 @@
     chatBodyEl.addEventListener('pointerup', endDrag);
     chatBodyEl.addEventListener('pointercancel', endDrag);
     chatBodyEl.addEventListener('pointerleave', endDrag);
-  </script>
+const inputWrap = document.getElementById('inputWrap');
+const chatInput = document.getElementById('chatInput');
+const sendBtn = document.getElementById('sendBtn');
+
+// 글자 있으면 마이크 → 전송 버튼
+chatInput.addEventListener('input', function () {
+  inputWrap.classList.toggle('typing', chatInput.value.trim() !== '');
+});
+
+function sendMsg() {
+  const text = chatInput.value.trim();
+  if (!text) return;
+
+  const row = document.createElement('div');
+  row.className = 'row out';
+  const bubble = document.createElement('div');
+  bubble.className = 'bubble';
+  bubble.textContent = text;
+  const time = document.createElement('div');
+  time.className = 'time';
+  time.textContent = '21:17';   // 폰 시간에 맞춰 바꿔줘
+  row.appendChild(bubble);
+  row.appendChild(time);
+
+  const body = document.getElementById('chatBody');
+  body.appendChild(row);
+  body.scrollTop = body.scrollHeight;
+
+  chatInput.value = '';
+  inputWrap.classList.remove('typing');
+}
+
+sendBtn.onclick = sendMsg;
+chatInput.addEventListener('keydown', function (e) {
+  if (e.key === 'Enter') sendMsg();
+});
+    </script>
 </body>
 </html>
