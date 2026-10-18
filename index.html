@@ -432,7 +432,91 @@
 }
 .input-wrap.typing .mic { display: none; }
 .input-wrap.typing .send { display: flex; }
-   </style>
+   .cal {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 40px;
+  background: white;
+  color: black;
+  user-select: none;
+  opacity: 0;
+  transform: scale(0.9);
+  pointer-events: none;
+  transition: opacity 0.3s, transform 0.3s;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.cal.open {
+  opacity: 1;
+  transform: scale(1);
+  pointer-events: auto;
+}
+.cal-title {
+  margin: 58px 16px 6px;
+  font-size: 30px;
+  font-weight: 800;
+}
+.cal-week {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+  font-size: 10px;
+  font-weight: 600;
+  padding-bottom: 4px;
+  border-bottom: 1px solid #e5e5ea;
+}
+.cal-week span:first-child,
+.cal-week span:last-child { color: #8e8e93; }
+.cal-grid {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-auto-rows: 1fr;
+}
+.cal-cell {
+  border-top: 1px solid #e5e5ea;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 8px;
+  min-width: 0;
+}
+.cal-cell.off { color: #8e8e93; }
+.cal-num {
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1;
+}
+.cal-ev {
+  margin-top: 6px;
+  width: calc(100% - 2px);
+  height: 14px;
+  border-radius: 7px;
+  background: #c9e6d6;
+  color: #2d5a3f;
+  font-size: 8px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 0 3px;
+  box-sizing: border-box;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.cal-ev i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #3f9a63;
+  flex-shrink: 0;
+}
+  </style>
 </head>
 <body>
   <div class="phone">
@@ -441,7 +525,7 @@
       <a class="app">
         <img src="https://cdn.discordapp.com/attachments/1161239105489866772/1561423134018769089/BqZSmq8DEIVmrsrM2ZjJFk4Ly7VN2w9eDFvVYWUkt2hI_bMNRo2Fvymz_lDWJ6BUwEQeLXW9T5jxN3hOb_qeN6o6Bm_-VuBr_uryFg5DKs6oVzamsOoqI7iImzoaxB5Z7iza1bHVkSWmcCViFSDmRg.webp?ex=6ad64c1c&is=6ad4fa9c&hm=60abe7b69df9cca358ea2696c94408be7e93f034af8d37033aec92c50144f3e2&">
       </a>
-      <div class="app calendar">
+     <div class="app calendar" id="calApp">
         <div class="day">월요일</div>
         <div class="num">7</div>
       </div>
@@ -848,6 +932,46 @@ sendBtn.onclick = sendMsg;
 chatInput.addEventListener('keydown', function (e) {
   if (e.key === 'Enter') sendMsg();
 });
+const cal = document.querySelector('.cal');
+const calApp = document.getElementById('calApp');
+
+// 일정: 날짜: '이름'  (여기만 고치면 돼!)
+const events = { 24: '추석 연휴', 25: '추석', 26: '추석 연휴' };
+
+const year = 2026, month = 8;   // month는 0부터라서 8 = 9월
+const offset = new Date(year, month, 1).getDay();       // 1일의 요일
+const lastDay = new Date(year, month + 1, 0).getDate(); // 그 달 마지막 날
+const grid = document.getElementById('calGrid');
+
+for (let i = 0; i < offset; i++) {
+  const blank = document.createElement('div');
+  blank.className = 'cal-cell';
+  grid.appendChild(blank);
+}
+for (let d = 1; d <= lastDay; d++) {
+  const cell = document.createElement('div');
+  cell.className = 'cal-cell';
+  const dow = (offset + d - 1) % 7;
+  if (dow === 0 || dow === 6) cell.classList.add('off');   // 일, 토는 회색
+
+  const num = document.createElement('div');
+  num.className = 'cal-num';
+  num.textContent = d;
+  cell.appendChild(num);
+
+  if (events[d]) {
+    const ev = document.createElement('div');
+    ev.className = 'cal-ev';
+    ev.innerHTML = '<i></i>' + events[d];
+    cell.appendChild(ev);
+  }
+  grid.appendChild(cell);
+}
+
+calApp.onclick = function () {
+  cal.classList.add('open');
+  phone.classList.add('in-msg');   // 상태바 글씨 검정으로
+};
     </script>
 </body>
 </html>
