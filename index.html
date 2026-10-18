@@ -3,13 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <style>
     html, body {
       margin: 0;
       height: 100%;
     }
     body {
+      position: fixed;
+      top: 0;*/
+      left: 0;
+      width: 100%;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -1345,6 +1349,13 @@
       cal.classList.add('open');
       phone.classList.add('in-msg');
     };
+    // 입력창 눌렀다 닫을 때 화면이 밀려 있으면 제자리로
+chatInput.addEventListener('focus', function () {
+  setTimeout(function () { window.scrollTo(0, 0); }, 50);
+});
+chatInput.addEventListener('blur', function () {
+  window.scrollTo(0, 0);
+});
   </script>
 </body>
 </html>
