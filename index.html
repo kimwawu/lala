@@ -161,10 +161,10 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      gap: 1px;
+      gap: 2px;
       cursor: pointer;
       box-sizing: border-box;
-      padding-top: 6px;
+      padding-top: 8px;
     }
     .calendar .day {
       font-size: 19cqw;
@@ -184,6 +184,80 @@
       object-fit: cover;
       display: block;
     }
+
+    /* ===== 메시지 화면 ===== */
+    .messages {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 40px;
+      background: white;
+      color: black;
+      user-select: none;
+      opacity: 0;
+      transform: scale(0.9);
+      pointer-events: none;
+      transition: opacity 0.3s, transform 0.3s;
+    }
+    .messages.open {
+      opacity: 1;
+      transform: scale(1);
+      pointer-events: auto;
+    }
+    .msg-title {
+      margin: 62px 16px 8px;
+      font-size: 30px;
+      font-weight: 700;
+    }
+    .msg-search {
+      margin: 0 16px 8px;
+      height: 32px;
+      border-radius: 10px;
+      background: #eeeef0;
+      color: #8e8e93;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      padding-left: 12px;
+      box-sizing: border-box;
+    }
+    .msg-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 16px;
+    }
+    .msg-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #c7c7cc;
+      flex-shrink: 0;
+    }
+    .msg-text {
+      flex: 1;
+      min-width: 0;
+    }
+    .msg-name {
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .msg-preview {
+      font-size: 13px;
+      color: #8e8e93;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .msg-time {
+      font-size: 12px;
+      color: #8e8e93;
+    }
+    /* 메시지 화면이 열리면 상태바/홈바를 검정색으로 */
+    .phone.in-msg .status { color: black; }
+    .phone.in-msg .bar { background: black; }
   </style>
 </head>
 <body>
@@ -191,13 +265,13 @@
 
     <div class="dock">
       <a class="app">
-        <img src="https://cdn.discordapp.com/attachments/1161239105489866772/1561423134018769089/BqZSmq8DEIVmrsrM2ZjJFk4Ly7VN2w9eDFvVYWUkt2hI_bMNRo2Fvymz_lDWJ6BUwEQeLXW9T5jxN3hOb_qeN6o6Bm_-VuBr_uryFg5DKs6oVzamsOoqI7iImzoaxB5Z7iza1bHVkSWmcCViFSDmRg.webp?ex=6ad64c1c&is=6ad4fa9c&hm=60abe7b69df9cca358ea2696c94408be7e93f034af8d37033aec92c50144f3e2&">
+        <img src="https://cdn.discordapp.com/attachments/1161239105489866772/1561417960868937819/16566077.png?ex=6ad6474b&is=6ad4f5cb&hm=30ed0f9e6dcc79771b911a9e1c1cdc90ddcb62889771829791710674a0f240df&">
       </a>
       <div class="app calendar">
         <div class="day">월요일</div>
         <div class="num">7</div>
       </div>
-      <a class="app">
+      <a class="app" id="msgApp">
         <img src="https://cdn.discordapp.com/attachments/1161239105489866772/1561414546885836890/png-clipart-computer-icons-imessage-imessage-leaf-logo-thumbnail.png?ex=6ad6441d&is=6ad4f29d&hm=e07576a2f1593937e0522d02fe4365644e81e1beaa08f417ac172d2cf0ac4670&">
       </a>
       <a class="app" href="https://www.daydreamcorp.space/ko" target="_blank">
@@ -220,6 +294,38 @@
           <path d="M8 2l1.5-2h5L16 2h4a3 3 0 0 1 3 3v11a3 3 0 0 1-3 3H4a3 3 0 0 1-3-3V5a3 3 0 0 1 3-3z"/>
           <circle cx="12" cy="10.5" r="4.5" fill="rgba(0,0,0,0.35)"/>
         </svg>
+      </div>
+    </div>
+
+    <div class="messages">
+      <div class="msg-title">메시지</div>
+      <div class="msg-search">검색</div>
+
+      <div class="msg-item">
+        <div class="msg-avatar"></div>
+        <div class="msg-text">
+          <div class="msg-name">친구1</div>
+          <div class="msg-preview">오늘 저녁에 뭐해?</div>
+        </div>
+        <div class="msg-time">오후 9:10</div>
+      </div>
+
+      <div class="msg-item">
+        <div class="msg-avatar"></div>
+        <div class="msg-text">
+          <div class="msg-name">친구2</div>
+          <div class="msg-preview">ㅋㅋㅋㅋ 그거 봤어?</div>
+        </div>
+        <div class="msg-time">오후 6:42</div>
+      </div>
+
+      <div class="msg-item">
+        <div class="msg-avatar"></div>
+        <div class="msg-text">
+          <div class="msg-name">엄마</div>
+          <div class="msg-preview">밥 먹었니?</div>
+        </div>
+        <div class="msg-time">어제</div>
       </div>
     </div>
 
@@ -251,13 +357,26 @@
   <script>
     const phone = document.querySelector('.phone');
     const lock = document.querySelector('.lock');
+    const messages = document.querySelector('.messages');
+    const msgApp = document.getElementById('msgApp');
     let startY = 0;
+
+    msgApp.onclick = function () {
+      messages.classList.add('open');
+      phone.classList.add('in-msg');
+    };
+
     phone.onpointerdown = function (e) {
       startY = e.clientY;
     };
     phone.onpointerup = function (e) {
       if (startY - e.clientY > 50) {
-        lock.classList.add('up');
+        if (messages.classList.contains('open')) {
+          messages.classList.remove('open');
+          phone.classList.remove('in-msg');
+        } else {
+          lock.classList.add('up');
+        }
       }
     };
   </script>
