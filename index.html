@@ -72,12 +72,16 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      transition: transform 0.2s;
     }
     .lock-btn.left {
       left: 30px;
     }
     .lock-btn.right {
       right: 30px;
+    }
+    .lock-btn:active {
+      transform: scale(1.2);
     }
     .island {
       position: absolute;
