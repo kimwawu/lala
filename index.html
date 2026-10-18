@@ -129,10 +129,91 @@
       align-items: center;
       gap: 5px;
     }
+    .dock {
+      position: absolute;
+      bottom: 22px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 252px;
+      height: 76px;
+      border-radius: 30px;
+      background: rgba(255, 255, 255, 0.22);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+    }
+    .app {
+      position: relative;
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .app.phone-app { background: linear-gradient(#86ee7a, #4fcf4f); }
+    .app.kakao     { background: #fbe04a; }
+    .app.msg       { background: linear-gradient(#86ee7a, #4fcf4f); }
+    .app.safari    { background: #f4f4f6; }
+    .badge {
+      position: absolute;
+      top: -7px;
+      right: -7px;
+      min-width: 22px;
+      height: 22px;
+      padding: 0 6px;
+      box-sizing: border-box;
+      border-radius: 11px;
+      background: #e8484a;
+      color: white;
+      font-size: 13px;
+      font-weight: 500;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
   </style>
 </head>
 <body>
   <div class="phone">
+    <div class="dock">
+
+  <div class="app phone-app">
+    <svg width="30" height="30" viewBox="0 0 24 24" fill="white">
+      <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+    </svg>
+    <div class="badge">2</div>
+  </div>
+
+  <div class="app kakao">
+    <svg width="40" height="36" viewBox="0 0 40 36">
+      <ellipse cx="20" cy="16" rx="17" ry="13" fill="#3b1e1e"/>
+      <path d="M12 26l-2 8 9-6z" fill="#3b1e1e"/>
+      <text x="20" y="20.5" text-anchor="middle" font-size="12" font-weight="800"
+            font-family="Pretendard, sans-serif" fill="#fbe04a">TALK</text>
+    </svg>
+  </div>
+
+  <div class="app msg">
+    <svg width="34" height="32" viewBox="0 0 34 32">
+      <ellipse cx="17" cy="14" rx="14" ry="11" fill="white"/>
+      <path d="M7 22l-4 7 9-4z" fill="white"/>
+    </svg>
+    <div class="badge">58</div>
+  </div>
+
+  <div class="app safari">
+    <svg width="40" height="40" viewBox="0 0 40 40">
+      <circle cx="20" cy="20" r="17" fill="#3b82f6"/>
+      <circle cx="20" cy="20" r="15" fill="none" stroke="white" stroke-width="1" stroke-dasharray="1 3" opacity="0.8"/>
+      <path d="M29 11L22.5 22.5 17.5 17.5z" fill="#ef4444"/>
+      <path d="M11 29l6.5-11.5 5 5z" fill="white"/>
+    </svg>
+  </div>
+</div>
   <div class="lock">
     <div class="lock-date">9월 7일 (월)</div>
     <div class="lock-time">21:17</div>
@@ -173,19 +254,20 @@
       </svg>
     </span>
   </div>
+   </div>
   <script>
-      const phone = document.querySelector('.phone');
-      const lock = document.querySelector('.lock');
-      let startY = 0;
-      phone.onpointerdown = function (e) {
+    const phone = document.querySelector('.phone');
+    const lock = document.querySelector('.lock');
+    let startY = 0;
+    phone.onpointerdown = function (e) {
       startY = e.clientY;
-      };
-      phone.onpointerup = function (e) {
-    if (startY - e.clientY > 50) {
-      lock.classList.add('up');
+    };
+    phone.onpointerup = function (e) {
+      if (startY - e.clientY > 50) {
+        lock.classList.add('up');
       }
     };
-</script>
+  </script>
 </body>
 </html>
 </body>
