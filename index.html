@@ -1307,6 +1307,96 @@
       padding: 0 4px;
       box-sizing: border-box;
     }
+        /* ===== 갤러리 ===== */
+    .home-app .ico img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .ico.gal { background: #fff; }
+
+    .gal {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      border-radius: 40px;
+      background: #111;
+      color: white;
+      user-select: none;
+      opacity: 0;
+      transform: scale(0.9);
+      pointer-events: none;
+      transition: opacity 0.3s, transform 0.3s;
+      overflow: hidden;
+    }
+    .gal.open { opacity: 1; transform: scale(1); pointer-events: auto; }
+    .gal-scroll {
+      position: absolute;
+      top: 0; bottom: 0; left: 0; right: 0;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding-bottom: 62px;
+      display: flex;
+      flex-direction: column;
+      touch-action: pan-y;
+      scrollbar-width: none;
+    }
+    .gal-scroll::-webkit-scrollbar { display: none; }
+    .gal-grid {
+      margin-top: auto;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 1px;
+    }
+    .gal-cell { position: relative; aspect-ratio: 1; overflow: hidden; background: #2a2a2a; }
+    .gal-cell img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+    .gal-fade-t {
+      position: absolute; top: 0; left: 0; right: 0; height: 110px;
+      background: linear-gradient(rgba(0,0,0,0.55), transparent);
+      pointer-events: none; z-index: 1;
+    }
+    .gal-fade-b {
+      position: absolute; bottom: 0; left: 0; right: 0; height: 90px;
+      background: linear-gradient(transparent, rgba(255,255,255,0.92));
+      pointer-events: none; z-index: 1;
+    }
+    .gal-title { position: absolute; top: 44px; left: 12px; z-index: 2; pointer-events: none; text-shadow: 0 1px 6px rgba(0,0,0,0.35); }
+    .gal-title b { display: block; font-size: 28px; font-weight: 700; line-height: 1.1; }
+    .gal-title span { display: block; margin-top: 4px; font-size: 12px; font-weight: 600; }
+    .gal-btn {
+      position: absolute; top: 43px; height: 31px; z-index: 2;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.6);
+      -webkit-backdrop-filter: blur(14px);
+      backdrop-filter: blur(14px);
+      color: #1c1c1e;
+      display: flex; justify-content: center; align-items: center;
+      font-size: 12px; font-weight: 700;
+    }
+    .gal-filter { right: 63px; width: 31px; }
+    .gal-select { right: 12px; width: 43px; }
+    .gal-tabs {
+      position: absolute; left: 15px; bottom: 16px;
+      width: 130px; height: 42px;
+      padding: 3px; box-sizing: border-box;
+      border-radius: 21px;
+      background: rgba(255,255,255,0.92);
+      box-shadow: 0 3px 14px rgba(0,0,0,0.12);
+      display: flex; z-index: 3;
+    }
+    .gal-tab {
+      flex: 1; border-radius: 18px;
+      display: flex; flex-direction: column; justify-content: center; align-items: center;
+      gap: 1px; font-size: 9px; color: #1c1c1e;
+    }
+    .gal-tab svg { width: 17px; height: 17px; }
+    .gal-tab.sel { background: #ebebed; color: #3b86f7; }
+    .gal-search {
+      position: absolute; right: 15px; bottom: 16px;
+      width: 42px; height: 42px; border-radius: 50%;
+      background: rgba(255,255,255,0.92);
+      box-shadow: 0 3px 14px rgba(0,0,0,0.12);
+      display: flex; justify-content: center; align-items: center; z-index: 3;
+    }
+    .gal .home-zone { height: 16px; }
+    .phone.in-gal .status { color: white; }
+    .phone.in-gal .bar { background: black; }
   </style>
 </head>
 <body>
@@ -1332,6 +1422,8 @@
     </div>
     <div class="home-icons">
       <div class="home-app" id="noteIcon">
+        <div class="ico gal"><img src="https://cdn.discordapp.com/attachments/1161239105489866772/1561647384122105876/831266.png?ex=6ad71cf6&is=6ad5cb76&hm=760e16bad7e899fa2b46fbee269182ecd0284a242de5502134bb6a50ad6d126d&"></div>
+        <span>갤러리</span>
         <div class="ico memo"></div>
         <span>메모</span>
       </div>
@@ -1505,6 +1597,30 @@
       </div>
         <div class="nt-compose off">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1c1c1e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-6"/><path d="M18.4 3.6a1.8 1.8 0 0 1 2.5 2.5L12 15l-3.5 1 1-3.5z"/></svg>
+      </div>
+      <div class="home-zone"></div>
+    </div>
+        <div class="gal" id="gal">
+      <div class="gal-scroll" id="galScroll"><div class="gal-grid" id="galGrid"></div></div>
+      <div class="gal-fade-t"></div>
+      <div class="gal-fade-b"></div>
+      <div class="gal-title"><b>보관함</b><span id="galCount"></span></div>
+      <div class="gal-btn gal-filter">
+        <svg width="14" height="10" viewBox="0 0 14 10" stroke="#1c1c1e" stroke-width="1.8" stroke-linecap="round"><path d="M1 1h12M3 5h8M5.5 9h3"/></svg>
+      </div>
+      <div class="gal-btn gal-select">선택</div>
+      <div class="gal-tabs">
+        <div class="gal-tab sel">
+          <svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="3" fill="currentColor"/><circle cx="8" cy="10" r="2" fill="white"/><path d="M3 18l6-5 4 3 3-3 5 5" fill="none" stroke="white" stroke-width="1.6" stroke-linejoin="round"/></svg>
+          <span>보관함</span>
+        </div>
+        <div class="gal-tab">
+          <svg viewBox="0 0 24 24" fill="currentColor"><rect x="5" y="2" width="14" height="3" rx="1"/><rect x="3" y="7" width="18" height="3" rx="1"/><rect x="2" y="12" width="20" height="9" rx="2.5"/></svg>
+          <span>모음</span>
+        </div>
+      </div>
+      <div class="gal-search">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1c1c1e" stroke-width="2.4" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="7"/><path d="M16 16l5 5"/></svg>
       </div>
       <div class="home-zone"></div>
     </div>
@@ -1855,6 +1971,9 @@
       noteEd.classList.remove('open');
       messages.classList.add('open');
       phone.classList.add('in-msg');
+      galEl.classList.remove('open');
+      phone.classList.remove('in-gal');
+      openChat(bannerChat);
       openChat(bannerChat);
     });
 
@@ -1927,7 +2046,10 @@
       phone.onpointerup = function (e) {
       if (startInChat) return;
       if (startY - e.clientY > 50) {
-        if (notesEl.classList.contains('open')) {
+        if (galEl.classList.contains('open')) {
+          if (!startBottom) return;
+          closeGallery();
+        } else if (notesEl.classList.contains('open')) {
           if (!startBottom) return;   // 메모도 언더바에서 시작한 쓸기만 인정
           closeNotes();
         } else if (dialer.classList.contains('open')) {
@@ -2836,6 +2958,44 @@
     noteText.addEventListener('blur', function () { window.scrollTo(0, 0); });
 
     renderNotes();
+        // ===== 갤러리 앱 =====
+    // ★ 사진 링크는 여기! 따옴표 안에 주소를 넣고 쉼표로 이어 붙이면 돼.
+    //   위에 쓴 사진이 오래된 것(왼쪽 위), 아래에 쓴 사진이 최근 것(오른쪽 아래)이야.
+    const photos = [
+      'https://cdn.discordapp.com/attachments/1161239105489866772/1561647348072062996/IMG_2516.png?ex=6ad71ced&is=6ad5cb6d&hm=bc4490b9d711eb7f8640256e38268b49352e9fe2d25894a2c10ecef5066460ac&',
+      'https://cdn.discordapp.com/attachments/1161239105489866772/1561647348822577202/IMG_2517.png?ex=6ad71ced&is=6ad5cb6d&hm=24aec84daac22ecb5370370e86547457140f711ed92bdb35bbe183dafe6357b0&',
+    ];
+    const GALLERY_COUNT = null;   // '2,336개의 항목'에 뜨는 숫자. 실제 사진 개수로 하려면 null
+
+    const galEl = document.getElementById('gal');
+    const galScroll = document.getElementById('galScroll');
+    const galGrid = document.getElementById('galGrid');
+
+    function renderGallery() {
+      galGrid.innerHTML = '';
+      photos.forEach(function (src) {
+        const cell = document.createElement('div');
+        cell.className = 'gal-cell';
+        const img = document.createElement('img');
+        img.src = src;
+        img.draggable = false;
+        cell.appendChild(img);
+        galGrid.appendChild(cell);
+      });
+      const n = GALLERY_COUNT || photos.length;
+      document.getElementById('galCount').textContent = n.toLocaleString() + '개의 항목';
+    }
+    function openGallery() {
+      galEl.classList.add('open');
+      phone.classList.add('in-gal');
+      galScroll.scrollTop = galScroll.scrollHeight;   // 가장 최근 사진(맨 아래)부터 보이게
+    }
+    function closeGallery() {
+      galEl.classList.remove('open');
+      phone.classList.remove('in-gal');
+    }
+    document.getElementById('galIcon').onclick = openGallery;
+    renderGallery();
   </script>
 </body>
 </html>
