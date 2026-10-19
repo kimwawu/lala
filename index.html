@@ -1116,6 +1116,187 @@
     .cs-end:active { filter: brightness(0.85); }
     .phone.in-call .status { color: white; }
     .phone.in-call .bar { background: white; }
+        /* ===== 홈 화면 앱 아이콘 (메모) ===== */
+    .home-icons { position: absolute; top: 62px; left: 18px; display: flex; gap: 14px; }
+    .home-app { width: 48px; text-align: center; cursor: pointer; }
+    .home-app .ico { position: relative; width: 48px; height: 48px; border-radius: 12px; overflow: hidden; }
+    .home-app span {
+      display: block;
+      margin-top: 4px;
+      font-size: 10px;
+      color: white;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.45);
+      white-space: nowrap;
+    }
+    .ico.memo { background: linear-gradient(#ffffff, #f3f3f5); }
+    .ico.memo::before {
+      content: '';
+      position: absolute;
+      left: 0; right: 0; top: 0;
+      height: 14px;
+      background: linear-gradient(#ffd84a, #f5c518);
+    }
+    .ico.memo::after {
+      content: '';
+      position: absolute;
+      left: 7px; right: 7px; top: 24px;
+      height: 1px;
+      background: #dcdce0;
+      box-shadow: 0 7px 0 #dcdce0, 0 14px 0 #dcdce0;
+    }
+
+    /* ===== 메모 목록 ===== */
+    .notes {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      border-radius: 40px;
+      background: #f2f2f7;
+      color: #1c1c1e;
+      user-select: none;
+      opacity: 0;
+      transform: scale(0.9);
+      pointer-events: none;
+      transition: opacity 0.3s, transform 0.3s;
+      overflow: hidden;
+    }
+    .notes.open { opacity: 1; transform: scale(1); pointer-events: auto; }
+    .nt-head {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 82px;
+      background: #f2f2f7;
+      z-index: 2;
+    }
+    .nt-circle {
+      position: absolute;
+      top: 42px;
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      background: #fbfbfd;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      z-index: 1;
+    }
+    .nt-circle.l { left: 12px; }
+    .nt-circle.r { right: 12px; }
+    .nt-headtitle { position: absolute; top: 42px; left: 0; right: 0; text-align: center; pointer-events: none; }
+    .nt-headtitle b { display: block; font-size: 13px; font-weight: 700; line-height: 1.25; }
+    .nt-headtitle span { font-size: 10px; color: #8e8e93; }
+    .nt-scroll {
+      position: absolute;
+      top: 82px; bottom: 0; left: 0; right: 0;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding-bottom: 90px;
+      touch-action: pan-y;
+      scrollbar-width: none;
+    }
+    .nt-scroll::-webkit-scrollbar { display: none; }
+    .nt-sec { font-size: 15px; font-weight: 700; padding: 10px 12px 6px; }
+    .nt-card { margin: 0 11px 6px; background: white; border-radius: 18px; overflow: hidden; }
+    .nt-item { position: relative; padding: 9px 12px 8px 19px; cursor: pointer; }
+    .nt-item + .nt-item::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 19px; right: 12px;
+      height: 1px;
+      background: #e5e5ea;
+    }
+    .nt-title { font-size: 12.5px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .nt-sub { font-size: 10.5px; color: #8e8e93; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .nt-sub span + span { margin-left: 6px; }
+    .nt-folder { display: flex; align-items: center; gap: 4px; margin-top: 2px; font-size: 10.5px; color: #8e8e93; }
+    .nt-lock { position: absolute; left: 5px; top: 50%; margin-top: -6px; }
+    .nt-search {
+      position: absolute;
+      left: 19px; right: 61px; bottom: 20px;
+      height: 33px;
+      border-radius: 17px;
+      background: rgba(255,255,255,0.92);
+      -webkit-backdrop-filter: blur(14px);
+      backdrop-filter: blur(14px);
+      box-shadow: 0 3px 14px rgba(0,0,0,0.1);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 0 10px;
+      z-index: 3;
+    }
+    .nt-search input {
+      flex: 1;
+      min-width: 0;
+      border: none;
+      outline: none;
+      background: transparent;
+      font-family: inherit;
+      font-size: 12px;
+      user-select: text;
+    }
+    .nt-compose {
+      position: absolute;
+      right: 19px; bottom: 20px;
+      width: 33px; height: 33px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.92);
+      box-shadow: 0 3px 14px rgba(0,0,0,0.1);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      z-index: 3;
+    }
+    .nt-compose.off { opacity: 0.4; cursor: default; }
+    .notes .home-zone, .note-ed .home-zone { height: 16px; }
+
+    /* ===== 메모 쓰는 화면 ===== */
+    .note-ed {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      border-radius: 40px;
+      background: white;
+      color: #1c1c1e;
+      user-select: none;
+      transform: translateX(100%);
+      pointer-events: none;
+      transition: transform 0.3s;
+      overflow: hidden;
+    }
+    .note-ed.open { transform: translateX(0); pointer-events: auto; }
+    .ne-pill {
+      position: absolute;
+      top: 42px; right: 12px;
+      width: 70px; height: 32px;
+      border-radius: 16px;
+      background: #fbfbfd;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+    }
+    .ne-date { position: absolute; top: 80px; left: 0; right: 0; text-align: center; font-size: 10px; color: #8e8e93; }
+    .ne-text {
+      position: absolute;
+      top: 104px; left: 16px; right: 16px; bottom: 70px;
+      border: none;
+      outline: none;
+      resize: none;
+      background: transparent;
+      font-family: inherit;
+      font-size: 14px;
+      line-height: 1.5;
+      color: #1c1c1e;
+      caret-color: #e5a800;
+      user-select: text;
+      padding: 0;
+    }
+    .ne-tools {
+      position: absolute;
+      left: 19px;
   </style>
 </head>
 <body>
@@ -1139,7 +1320,12 @@
         <img src="https://cdn.discordapp.com/attachments/1161239105489866772/1561413157400879317/safari_ios_browser_logo_icon_152966.png?ex=6ad642d2&is=6ad4f152&hm=a6238df4726db263a304a32f29ab37ab867813a19ebcf1e95ec0b652ec57dc43&">
       </a>
     </div>
-
+    <div class="home-icons">
+      <div class="home-app" id="noteIcon">
+        <div class="ico memo"></div>
+        <span>메모</span>
+      </div>
+    </div>
     <div class="lock">
       <div class="lock-date">9월 7일 (월)</div>
       <div class="lock-time">21:17</div>
@@ -1267,6 +1453,49 @@
         </div>
       </div>
 
+      <div class="home-zone"></div>
+    </div>
+        <div class="notes" id="notes">
+      <div class="nt-head">
+        <div class="nt-circle l" id="ntBack">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="#1c1c1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 2L4 7l5 5"/></svg>
+        </div>
+        <div class="nt-headtitle"><b>모든 iCloud</b><span id="ntCount"></span></div>
+        <div class="nt-circle r">
+          <svg width="14" height="4" viewBox="0 0 14 4" fill="#1c1c1e"><circle cx="2" cy="2" r="1.5"/><circle cx="7" cy="2" r="1.5"/><circle cx="12" cy="2" r="1.5"/></svg>
+        </div>
+      </div>
+      <div class="nt-scroll" id="ntList"></div>
+      <div class="nt-search">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1c1c1e" stroke-width="2.4" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="7"/><path d="M16 16l5 5"/></svg>
+        <input type="text" id="ntSearch" placeholder="검색">
+        <svg width="12" height="16" viewBox="0 0 14 18" fill="none" stroke="#1c1c1e" stroke-width="1.5" stroke-linecap="round"><rect x="4" y="1" width="6" height="10" rx="3"/><path d="M1.5 8.5a5.5 5.5 0 0 0 11 0M7 14v3"/></svg>
+      </div>
+      <div class="nt-compose" id="ntCompose">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1c1c1e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-6"/><path d="M18.4 3.6a1.8 1.8 0 0 1 2.5 2.5L12 15l-3.5 1 1-3.5z"/></svg>
+      </div>
+      <div class="home-zone"></div>
+    </div>
+
+    <div class="note-ed" id="noteEd">
+      <div class="nt-circle l" id="neBack">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="#1c1c1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 2L4 7l5 5"/></svg>
+      </div>
+      <div class="ne-pill">
+        <svg width="14" height="16" viewBox="0 0 24 24" fill="none" stroke="#8e8e93" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3M8 7l4-4 4 4"/><path d="M6 11H5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-8a1 1 0 0 0-1-1h-1"/></svg>
+        <svg width="14" height="4" viewBox="0 0 14 4" fill="#1c1c1e"><circle cx="2" cy="2" r="1.5"/><circle cx="7" cy="2" r="1.5"/><circle cx="12" cy="2" r="1.5"/></svg>
+      </div>
+      <div class="ne-date" id="neDate"></div>
+      <textarea class="ne-text" id="noteText" spellcheck="false"></textarea>
+      <div class="ne-tools">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1c1c1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="7" r="3" fill="#1c1c1e"/><path d="M4.8 7l.9.9 1.6-1.8" stroke="white" stroke-width="1.5"/><circle cx="6" cy="17" r="3"/><path d="M12 7h9M12 17h9"/></svg>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1c1c1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5l-8.5 8.5a5 5 0 0 1-7-7l9-9a3.3 3.3 0 0 1 4.7 4.7l-9 9a1.7 1.7 0 0 1-2.4-2.4l8-8"/></svg>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1c1c1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8.5 17l3.5-9 3.5 9M9.8 14h4.4"/></svg>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1c1c1e" stroke-width="1.8" stroke-linecap="round"><ellipse cx="12" cy="12" rx="9" ry="4" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="9" ry="4" transform="rotate(120 12 12)"/></svg>
+      </div>
+      <div class="nt-compose off">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1c1c1e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-6"/><path d="M18.4 3.6a1.8 1.8 0 0 1 2.5 2.5L12 15l-3.5 1 1-3.5z"/></svg>
+      </div>
       <div class="home-zone"></div>
     </div>
 <div class="callscreen" id="callScreen">
@@ -1605,13 +1834,15 @@
       e.stopPropagation();
       if (bannerY - e.clientY > 15) { bannerSwiped = true; hideBanner(); }
     });
-    // 알림 누르면 그 대화방으로 이동
+     // 알림 누르면 그 대화방으로 이동
     banner.addEventListener('click', function () {
       if (bannerSwiped) { bannerSwiped = false; return; }
       hideBanner();
       lock.classList.add('up');
       cal.classList.remove('open');
       dialer.classList.remove('open');
+      notesEl.classList.remove('open');
+      noteEd.classList.remove('open');
       messages.classList.add('open');
       phone.classList.add('in-msg');
       openChat(bannerChat);
@@ -1681,15 +1912,18 @@
       startInChat = !!e.target.closest('.chat-body');
       startBottom = !!(e.target.closest('.home-zone') || e.target.closest('.bar'));
     };
-    phone.onpointerup = function (e) {
+      phone.onpointerup = function (e) {
       if (startInChat) return;
       if (startY - e.clientY > 50) {
-        if (dialer.classList.contains('open')) {
-          if (!startBottom) return;   // 전화 앱도 언더바에서 시작한 쓸기만 인정
+        if (notesEl.classList.contains('open')) {
+          if (!startBottom) return;   // 메모도 언더바에서 시작한 쓸기만 인정
+          closeNotes();
+        } else if (dialer.classList.contains('open')) {
+          if (!startBottom) return;
           dialer.classList.remove('open');
           phone.classList.remove('in-msg');
         } else if (cal.classList.contains('open')) {
-          if (!startBottom) return;   // 캘린더는 언더바에서 시작한 쓸기만 인정
+          if (!startBottom) return;
           cal.classList.remove('open');
           phone.classList.remove('in-msg');
         } else if (messages.classList.contains('open')) {
@@ -2441,6 +2675,154 @@
     chatInput.addEventListener('blur', function () {
       window.scrollTo(0, 0);
     });
+        // ===== 메모 앱 =====
+    const NOTE_DATE = '2026년 9월 7일 21:17';   // 메모 쓰는 화면 위에 뜨는 날짜
+    const SECTIONS = ['고정된 메모', '오늘', '이전 7일', '이전 30일'];   // 목록에 나오는 순서
+
+    // 메모 추가하는 법: 한 줄 추가하면 돼!
+    //   section: 어느 묶음에 들어갈지 / date: 목록에 보이는 날짜 (아무 글씨나 OK)
+    //   body   : 메모 내용. 첫 줄이 제목, 둘째 줄이 미리보기로 나와 (줄바꿈은 \n)
+    //   locked : true 면 자물쇠가 붙고 눌러도 안 열려
+    const notes = [
+      { section: '고정된 메모', date: '2026. 8. 12.', body: '애플 뮤직 가족 공유\nㅇㅇㅈ' },
+      { section: '고정된 메모', date: '2025. 4. 16.', locked: true, body: '비밀번호' },
+      { section: '고정된 메모', date: '2024. 8. 20.', body: '외출 시 챙겨야 할 것\n양산' },
+      { section: '이전 7일', date: '금요일', body: '뒷문 잠그기\n냉장고 문 확인' },
+      { section: '이전 30일', date: '2026. 8. 14.', body: '새로운 메모\n손글씨 메모' },
+    ];
+
+    const notesEl = document.getElementById('notes');
+    const noteEd = document.getElementById('noteEd');
+    const ntList = document.getElementById('ntList');
+    const ntCount = document.getElementById('ntCount');
+    const ntSearch = document.getElementById('ntSearch');
+    const noteText = document.getElementById('noteText');
+    let editing = null;   // 지금 고치고 있는 메모 (새 메모면 null)
+
+    const LOCK_SVG = '<svg width="9" height="12" viewBox="0 0 9 12" fill="#8e8e93"><rect x="0" y="5" width="9" height="7" rx="1.5"/><path d="M2 5V3.5a2.5 2.5 0 0 1 5 0V5" fill="none" stroke="#8e8e93" stroke-width="1.2"/></svg>';
+    const FOLDER_SVG = '<svg width="11" height="9" viewBox="0 0 22 18" fill="none" stroke="#8e8e93" stroke-width="1.8"><path d="M2 4a2 2 0 0 1 2-2h5l2 2h7a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2z"/></svg>';
+
+    function noteLines(n) {
+      return n.body.split('\n').map(function (s) { return s.trim(); }).filter(Boolean);
+    }
+    function noteTitle(n) { return noteLines(n)[0] || '새로운 메모'; }
+    function notePreview(n) { return n.locked ? '잠김' : (noteLines(n)[1] || '추가 텍스트 없음'); }
+
+    function renderNotes() {
+      const q = ntSearch.value.trim();
+      ntList.innerHTML = '';
+      ntCount.textContent = notes.length + '개의 메모';
+
+      SECTIONS.forEach(function (sec) {
+        const items = notes.filter(function (n) {
+          return n.section === sec &&
+            (!q || noteTitle(n).includes(q) || (!n.locked && n.body.includes(q)));
+        });
+        if (!items.length) return;
+
+        const h = document.createElement('div');
+        h.className = 'nt-sec';
+        h.textContent = sec;
+        ntList.appendChild(h);
+
+        const card = document.createElement('div');
+        card.className = 'nt-card';
+        items.forEach(function (n) {
+          const it = document.createElement('div');
+          it.className = 'nt-item';
+
+          if (n.locked) {
+            const lk = document.createElement('div');
+            lk.className = 'nt-lock';
+            lk.innerHTML = LOCK_SVG;
+            it.appendChild(lk);
+          }
+
+          const t = document.createElement('div');
+          t.className = 'nt-title';
+          t.textContent = noteTitle(n);
+
+          const s = document.createElement('div');
+          s.className = 'nt-sub';
+          const s1 = document.createElement('span');
+          s1.textContent = n.date;
+          const s2 = document.createElement('span');
+          s2.textContent = notePreview(n);
+          s.appendChild(s1);
+          s.appendChild(s2);
+
+          const f = document.createElement('div');
+          f.className = 'nt-folder';
+          f.innerHTML = FOLDER_SVG + '<span>메모</span>';
+
+          it.appendChild(t);
+          it.appendChild(s);
+          it.appendChild(f);
+          it.onclick = function () { if (!n.locked) openNote(n); };
+          card.appendChild(it);
+        });
+        ntList.appendChild(card);
+      });
+    }
+
+    // 메모 열기 (n 이 없으면 새 메모)
+    function openNote(n) {
+      editing = n || null;
+      noteText.value = n ? n.body : '';
+      document.getElementById('neDate').textContent = NOTE_DATE;
+      noteEd.classList.add('open');
+      if (!n) noteText.focus({ preventScroll: true });
+    }
+
+    // 메모 저장 (비어 있으면 저장 안 하고, 원래 있던 메모가 비면 지워)
+    function saveNote() {
+      const text = noteText.value;
+      if (editing) {
+        const at = notes.indexOf(editing);
+        if (!text.trim()) {
+          notes.splice(at, 1);
+        } else if (text !== editing.body) {
+          editing.body = text;
+          editing.date = NOW;
+          if (editing.section !== '고정된 메모') editing.section = '오늘';
+          notes.splice(at, 1);
+          notes.unshift(editing);
+        }
+      } else if (text.trim()) {
+        notes.unshift({ section: '오늘', date: NOW, body: text });
+      }
+      editing = null;
+      noteText.blur();
+      renderNotes();
+    }
+
+    function closeEditor() {
+      saveNote();
+      noteEd.classList.remove('open');
+    }
+    function closeNotes() {
+      if (noteEd.classList.contains('open')) closeEditor();
+      notesEl.classList.remove('open');
+      phone.classList.remove('in-msg');
+    }
+
+    document.getElementById('noteIcon').onclick = function () {
+      renderNotes();
+      notesEl.classList.add('open');
+      phone.classList.add('in-msg');
+    };
+    document.getElementById('ntBack').onclick = closeNotes;
+    document.getElementById('ntCompose').onclick = function () { openNote(null); };
+    document.getElementById('neBack').onclick = closeEditor;
+    ntSearch.addEventListener('input', renderNotes);
+
+    // 입력창 눌렀다 닫을 때 화면이 밀려 있으면 제자리로
+    noteText.addEventListener('focus', function () {
+      setTimeout(function () { window.scrollTo(0, 0); }, 50);
+    });
+    noteText.addEventListener('blur', function () { window.scrollTo(0, 0); });
+
+    renderNotes();
   </script>
 </body>
 </html>
