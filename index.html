@@ -1296,7 +1296,17 @@
     }
     .ne-tools {
       position: absolute;
-      left: 19px;
+      left: 19px; bottom: 20px;
+      width: 154px; height: 33px;
+      border-radius: 17px;
+      background: rgba(255,255,255,0.95);
+      box-shadow: 0 3px 14px rgba(0,0,0,0.1);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 0 4px;
+      box-sizing: border-box;
+    }
   </style>
 </head>
 <body>
@@ -2684,11 +2694,10 @@
     //   body   : 메모 내용. 첫 줄이 제목, 둘째 줄이 미리보기로 나와 (줄바꿈은 \n)
     //   locked : true 면 자물쇠가 붙고 눌러도 안 열려
     const notes = [
-      { section: '고정된 메모', date: '2026. 8. 12.', body: '애플 뮤직 가족 공유\nㅇㅇㅈ' },
-      { section: '고정된 메모', date: '2025. 4. 16.', locked: true, body: '비밀번호' },
-      { section: '고정된 메모', date: '2024. 8. 20.', body: '외출 시 챙겨야 할 것\n양산' },
-      { section: '이전 7일', date: '금요일', body: '뒷문 잠그기\n냉장고 문 확인' },
-      { section: '이전 30일', date: '2026. 8. 14.', body: '새로운 메모\n손글씨 메모' },
+      { section: '고정된 메모', date: '2026. 8. 12.', body: '비밀번호\n인트라넷: 진나솔/0000\n최요원 집 비번: 0829' },
+      { section: '고정된 메모', date: '2018. 4. 16.', locked: true, body: '의뢰' },
+      { section: '고정된 메모', date: '2024. 8. 17.', body: '오늘 데이트 하는데 개지랄 미친 아니 오랜만에 보는 것도 아니고 그냥 같이 놀러나온 게 오랜만인데 왜 이렇게 지랄이지 오늘' },
+      { section: '이전 7일', date: '금요일', body: '정기 점검\nQterw-D-046\n1/5 이상 없음\n2.10 오이가 나한테 당근한테 악감정 있냐고 물어봄, 그 외는 이상 없음.\n3.25 이상 없음\n4.15 오늘도 이상한 거 물어봄, 그 외에는 이상 없음.\n5.13 이상 없음\n6.17 ㅇㅅ ㅇㅇ\n7.10 ㄴ\n8.18 ㄴ' },
     ];
 
     const notesEl = document.getElementById('notes');
