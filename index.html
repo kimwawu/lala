@@ -2791,9 +2791,9 @@
     const numberBook = {
       '01008290829': '최요원',
       '01012345678': '백석주 팀장님',
-      '01000000000': '현탐팀 D조 대리 김솔음'
-      '01048951648': '마무리조 장허운'
-      '080XXXXXXX': '백일몽 주식회사'
+      '01000000000': '현탐팀 D조 대리 김솔음',
+      '01048951648': '마무리조 장허운',
+      '0808888888': '백일몽 주식회사',
       '01095317365': '은하제'
     };
 
@@ -2875,8 +2875,10 @@
     }
     // 전화 걸어도 안 받는 사람 (이름 추가하면 돼)
     const noAnswer = ['은하제'];
+        const cantCall = ['마무리조 장허운'];   // 내가 걸 수 없는 사람 (걸려오는 전화는 OK)
     const NO_ANSWER_TIME = 10;   // 몇 초 동안 '연결 중...' 보여주고 끊을지
-    function startCall(name) {
+    function startCall(name, incoming) {
+      if (!incoming && cantCall.includes(name)) return;
       clearCallTimers();
       currentCallName = name;
       document.getElementById('csAvatar').textContent = name.charAt(0);
@@ -3214,9 +3216,9 @@
       }
     }
     document.getElementById('icDecline').onclick = function () { closeIncoming('in'); };
-    document.getElementById('icAccept').onclick = function () {
+      document.getElementById('icAccept').onclick = function () {
       closeIncoming();
-      startCall(ringName);
+      startCall(ringName, true);
     };
 
     incomingCalls.forEach(function (c) {
