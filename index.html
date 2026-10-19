@@ -2880,7 +2880,7 @@
     }
     // 전화 걸어도 안 받는 사람 (이름 추가하면 돼)
     const noAnswer = ['은하제'];
-        const cantCall = ['마무리조 장허운'];   // 내가 걸 수 없는 사람 (걸려오는 전화는 OK)
+        const cantCall = ['마무리조 장허운', '백일몽 주식회사'];   // 내가 걸 수 없는 사람 (걸려오는 전화는 OK)
     const NO_ANSWER_TIME = 10;   // 몇 초 동안 '연결 중...' 보여주고 끊을지
     function startCall(name, incoming) {
       if (!incoming && cantCall.includes(name)) return;
