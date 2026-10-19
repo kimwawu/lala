@@ -665,7 +665,7 @@
       background: #ff3b30;
       color: white;
       font-size: 11px;
-      font-weight: 600;
+      /* font-weight: 600; */
       display: none;
       justify-content: center;
       align-items: center;
@@ -1062,24 +1062,27 @@
       font-variant-numeric: tabular-nums;
       flex-shrink: 0;
     }
-    .cs-caps {
+       .cs-caps {
       flex: 1;
       min-height: 0;
       width: 100%;
       box-sizing: border-box;
       margin-top: 14px;
       padding: 0 16px;
-      overflow-y: auto;
-      scroll-behavior: smooth;
-      scrollbar-width: none;
+      overflow: hidden;
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      justify-content: flex-end;
       -webkit-mask-image: linear-gradient(transparent, black 18%);
       mask-image: linear-gradient(transparent, black 18%);
     }
+    .cs-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      will-change: transform;
+    }
     .cs-caps::-webkit-scrollbar { display: none; }
-    .cs-line:first-child { margin-top: auto; }
     .cs-line {
       max-width: 85%;
       font-size: 14px;
@@ -1094,9 +1097,9 @@
       margin-bottom: 1px;
     }
     .cs-line.me { align-self: flex-end; text-align: right; }
-    @keyframes csIn {
-      from { opacity: 0; transform: translateY(6px); }
-      to   { opacity: 1; transform: none; }
+       @keyframes csIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
     }
     .cs-end {
       margin: 10px 0 40px;
@@ -1270,7 +1273,7 @@
       <div class="cs-avatar" id="csAvatar"></div>
       <div class="cs-name" id="csName"></div>
       <div class="cs-time" id="csTime">연결 중...</div>
-      <div class="cs-caps" id="csCaps"></div>
+      <div class="cs-caps" id="csCaps"><div class="cs-stack" id="csStack"></div></div>
       <div class="cs-end" id="csEnd">
         <svg width="26" height="26" viewBox="0 0 24 24" fill="white" style="transform: rotate(135deg)"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
       </div>
@@ -2322,6 +2325,7 @@
 
     const callEl = document.getElementById('callScreen');
     const csCaps = document.getElementById('csCaps');
+    const csStack = document.getElementById('csStack');
     let callTick = null, callTimeouts = [], callSecs = 0, currentCallName = '';
 
     // 통화 화면에서 쓴 쓸어올리기가 폰 홈으로 새지 않게
@@ -2330,17 +2334,26 @@
 
     function pad2(n) { return String(n).padStart(2, '0'); }
 
-    function addCaption(who, text) {
+        function addCaption(who, text) {
       const line = document.createElement('div');
       line.className = 'cs-line' + (who === myName ? ' me' : '');
       const s = document.createElement('small');
       s.textContent = who;
       line.appendChild(s);
       line.appendChild(document.createTextNode(text));
-      csCaps.appendChild(line);
-      csCaps.scrollTop = csCaps.scrollHeight;
-    }
 
+      // 지금 움직이는 중이면 그 위치에서 이어서 움직이게
+      const cur = new DOMMatrix(getComputedStyle(csStack).transform).m42;
+
+      csStack.appendChild(line);
+      const start = cur + line.offsetHeight + 8;   // 새 줄 높이 + 줄 간격(gap)
+
+      csStack.style.transition = 'none';
+      csStack.style.transform = 'translateY(' + start + 'px)';
+      void csStack.offsetHeight;   // 위치를 먼저 확정
+      csStack.style.transition = 'transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1)';
+      csStack.style.transform = 'translateY(0)';
+    }
     function clearCallTimers() {
       clearInterval(callTick);
       callTimeouts.forEach(clearTimeout);
@@ -2354,7 +2367,8 @@
       document.getElementById('csName').textContent = name;
       const timeEl = document.getElementById('csTime');
       timeEl.textContent = '연결 중...';
-      csCaps.innerHTML = '';
+       csStack.innerHTML = '';
+      csStack.style.transform = '';
       callEl.classList.add('open');
       phone.classList.add('in-call');
 
