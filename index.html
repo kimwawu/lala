@@ -714,13 +714,302 @@
       -webkit-box-orient: vertical;
       overflow: hidden;
     }
+    /* ===== 전화 앱 ===== */
+    .dialer {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 40px;
+      background: white;
+      color: #1c1c1e;
+      user-select: none;
+      opacity: 0;
+      transform: scale(0.9);
+      pointer-events: none;
+      transition: opacity 0.3s, transform 0.3s;
+      overflow: hidden;
+    }
+    .dialer.open { opacity: 1; transform: scale(1); pointer-events: auto; }
+    .dialer .home-zone { height: 20px; }
+    .dl-screen {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      display: none;
+      flex-direction: column;
+      background: white;
+    }
+    .dl-screen.on { display: flex; }
+
+    /* 키패드 */
+    .dl-number {
+      position: absolute;
+      top: 108px;
+      left: 0;
+      right: 0;
+      height: 36px;
+      text-align: center;
+      font-size: 28px;
+      line-height: 36px;
+      white-space: nowrap;
+    }
+    .dl-pad {
+      position: absolute;
+      top: 181px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: grid;
+      grid-template-columns: repeat(3, 54px);
+      gap: 13px 17px;
+    }
+    .dl-key {
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      background: #fdfdfd;
+      box-shadow: 0 5px 14px rgba(0,0,0,0.08);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 0.1s;
+    }
+    .dl-key:active { background: #e8e8ea; }
+    .dl-key b { font-size: 24px; font-weight: 300; line-height: 1; }
+    .dl-key i {
+      font-style: normal;
+      font-size: 7px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      margin-top: 2px;
+      line-height: 1;
+    }
+    .dl-call {
+      position: absolute;
+      top: 445px;
+      left: 50%;
+      margin-left: -27px;
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      background: #67cf6c;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+    }
+    .dl-call:active { filter: brightness(0.9); }
+    .dl-del {
+      position: absolute;
+      top: 458px;
+      left: calc(50% + 56px);
+      width: 30px;
+      height: 30px;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    /* 머리글 (연락처 / 통화) */
+    .dl-head {
+      position: relative;
+      margin-top: 42px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 11px;
+      flex-shrink: 0;
+    }
+    .dl-title {
+      position: absolute;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-size: 15px;
+      font-weight: 700;
+      pointer-events: none;
+    }
+    .dl-circle, .dl-pill {
+      height: 32px;
+      border-radius: 16px;
+      background: #fdfdfd;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      position: relative;
+      z-index: 1;
+    }
+    .dl-circle { width: 32px; }
+    .dl-pill { padding: 0 12px; font-size: 13px; }
+    .dl-scroll {
+      position: relative;
+      flex: 1;
+      min-height: 0;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: 8px 0 80px;
+      scrollbar-width: none;
+    }
+    .dl-scroll::-webkit-scrollbar { display: none; }
+    .dl-av {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: linear-gradient(#a5aab5, #858a95);
+      flex-shrink: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      font-size: 13px;
+      font-weight: 600;
+    }
+    .dl-av svg { width: 17px; height: 17px; }
+
+    /* 연락처 */
+    .dl-mycard { display: flex; align-items: center; gap: 10px; padding: 4px 14px 10px; }
+    .dl-mycard .dl-av { width: 34px; height: 34px; }
+    .dl-myname { font-size: 15px; font-weight: 700; }
+    .dl-mysub { font-size: 11px; color: #8e8e93; }
+    .dl-sec {
+      font-size: 10px;
+      color: #8e8e93;
+      padding: 8px 14px 3px;
+      border-bottom: 1px solid #e5e5ea;
+    }
+    .dl-row { display: flex; align-items: center; gap: 10px; padding-left: 14px; height: 42px; }
+    .dl-rowtxt {
+      flex: 1;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      font-size: 14px;
+      border-bottom: 1px solid #e5e5ea;
+      margin-right: 22px;
+    }
+    .dl-index {
+      position: absolute;
+      right: 2px;
+      top: 118px;
+      display: flex;
+      flex-direction: column;
+      font-size: 7px;
+      line-height: 9px;
+      font-weight: 600;
+      color: #3b86f7;
+      text-align: center;
+      z-index: 2;
+    }
+    .dl-index span { cursor: pointer; padding: 0 2px; }
+
+    /* 통화 */
+    .dl-callrow { display: flex; align-items: center; gap: 10px; padding-left: 12px; height: 50px; }
+    .dl-callrow .dl-av { width: 34px; height: 34px; }
+    .dl-calltxt {
+      flex: 1;
+      min-width: 0;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 1px solid #e5e5ea;
+      padding-right: 12px;
+    }
+    .dl-callname { flex: 1; min-width: 0; }
+    .dl-callname div:first-child { font-size: 14px; font-weight: 600; }
+    .dl-callname div:last-child { font-size: 11px; color: #8e8e93; margin-top: 1px; }
+    .dl-callname.missed div:first-child { color: #ff3b30; }
+    .dl-calltime { font-size: 11px; color: #8e8e93; white-space: nowrap; }
+    .dl-dial {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #f2f2f4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    /* 아래 탭 바 */
+    .dl-tabs {
+      position: absolute;
+      left: 8px;
+      right: 8px;
+      bottom: 18px;
+      height: 42px;
+      display: flex;
+      gap: 8px;
+      z-index: 3;
+    }
+    .dl-tabpill {
+      flex: 1;
+      display: flex;
+      padding: 3px;
+      border-radius: 21px;
+      background: rgba(253,253,253,0.95);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    }
+    .dl-tab {
+      position: relative;
+      flex: 1;
+      border-radius: 18px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1px;
+      font-size: 8px;
+      color: #1c1c1e;
+      cursor: pointer;
+    }
+    .dl-tab svg { width: 17px; height: 17px; }
+    .dl-tab.sel { background: #ebebed; color: #3b86f7; }
+    .dl-tabbadge {
+      position: absolute;
+      top: 1px;
+      left: 50%;
+      margin-left: 5px;
+      min-width: 13px;
+      height: 13px;
+      padding: 0 3px;
+      box-sizing: border-box;
+      border-radius: 7px;
+      background: #ff3b30;
+      color: white;
+      font-size: 8px;
+      font-weight: 600;
+      display: none;
+      justify-content: center;
+      align-items: center;
+    }
+    .dl-search {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: rgba(253,253,253,0.95);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-shrink: 0;
+    }
   </style>
 </head>
 <body>
   <div class="phone">
 
     <div class="dock">
-      <a class="app">
+      <a class="app" id="phoneIcon">
         <img src="https://cdn.discordapp.com/attachments/1161239105489866772/1561423134018769089/BqZSmq8DEIVmrsrM2ZjJFk4Ly7VN2w9eDFvVYWUkt2hI_bMNRo2Fvymz_lDWJ6BUwEQeLXW9T5jxN3hOb_qeN6o6Bm_-VuBr_uryFg5DKs6oVzamsOoqI7iImzoaxB5Z7iza1bHVkSWmcCViFSDmRg.webp?ex=6ad64c1c&is=6ad4fa9c&hm=60abe7b69df9cca358ea2696c94408be7e93f034af8d37033aec92c50144f3e2&">
       </a>
       <div class="app calendar" id="calApp">
@@ -798,6 +1087,72 @@
         <div class="sheet-title" id="sheetTitle"></div>
         <div id="sheetList"></div>
       </div>
+      <div class="home-zone"></div>
+    </div>
+
+    <div class="dialer" id="dialer">
+
+      <!-- 키패드 -->
+      <div class="dl-screen on" id="dlKeypad">
+        <div class="dl-number" id="dlNumber"></div>
+        <div class="dl-pad" id="dlPad"></div>
+        <div class="dl-call" id="dlCall">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+        </div>
+        <div class="dl-del" id="dlDel">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1c1c1e" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5h11a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H9l-6-7z"/><path d="M12.5 9.5l5 5m0-5l-5 5"/></svg>
+        </div>
+      </div>
+
+      <!-- 연락처 -->
+      <div class="dl-screen" id="dlContacts">
+        <div class="dl-head">
+          <div class="dl-circle" id="dlBack">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="#1c1c1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 2L4 7l5 5"/></svg>
+          </div>
+          <div class="dl-title">연락처</div>
+          <div class="dl-circle">
+            <svg width="14" height="14" viewBox="0 0 14 14" stroke="#1c1c1e" stroke-width="1.8" stroke-linecap="round"><path d="M7 1v12M1 7h12"/></svg>
+          </div>
+        </div>
+        <div class="dl-scroll" id="dlContactList"></div>
+        <div class="dl-index" id="dlIndex"></div>
+      </div>
+
+      <!-- 통화 -->
+      <div class="dl-screen" id="dlCalls">
+        <div class="dl-head">
+          <div class="dl-pill">편집</div>
+          <div class="dl-title">통화</div>
+          <div class="dl-circle">
+            <svg width="16" height="12" viewBox="0 0 16 12" stroke="#1c1c1e" stroke-width="1.6" stroke-linecap="round"><path d="M1 2h14M3.5 6h9M6 10h4"/></svg>
+          </div>
+        </div>
+        <div class="dl-scroll" id="dlCallList"></div>
+      </div>
+
+      <!-- 아래 탭 -->
+      <div class="dl-tabs">
+        <div class="dl-tabpill">
+          <div class="dl-tab" data-tab="calls">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="currentColor"/><path d="M12 6v6.2h4.8" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <div class="dl-tabbadge" id="dlBadge"></div>
+            <span>통화</span>
+          </div>
+          <div class="dl-tab" data-tab="contacts">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="currentColor"/><circle cx="12" cy="9.3" r="3.3" fill="white"/><path d="M5.8 18.6c.9-3.3 3.6-4.7 6.2-4.7s5.3 1.4 6.2 4.7a10 10 0 0 1-12.4 0z" fill="white"/></svg>
+            <span>연락처</span>
+          </div>
+          <div class="dl-tab sel" data-tab="keypad">
+            <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="5" r="2.2"/><circle cx="12" cy="5" r="2.2"/><circle cx="19" cy="5" r="2.2"/><circle cx="5" cy="12" r="2.2"/><circle cx="12" cy="12" r="2.2"/><circle cx="19" cy="12" r="2.2"/><circle cx="5" cy="19" r="2.2"/><circle cx="12" cy="19" r="2.2"/><circle cx="19" cy="19" r="2.2"/></svg>
+            <span>키패드</span>
+          </div>
+        </div>
+        <div class="dl-search">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1c1c1e" stroke-width="2.4" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="7"/><path d="M16 16l5 5"/></svg>
+        </div>
+      </div>
+
       <div class="home-zone"></div>
     </div>
 
@@ -1112,7 +1467,7 @@
       document.getElementById('bannerText').textContent = text;
       banner.classList.add('show');
       clearTimeout(bannerTimer);
-      bannerTimer = setTimeout(hideBanner, 4500);   // 4.5초 뒤 사라짐
+      bannerTimer = setTimeout(hideBanner, 1700);   // 1.7초 뒤 사라짐 (1000 = 1초)
     }
     function hideBanner() {
       clearTimeout(bannerTimer);
@@ -1134,6 +1489,7 @@
       hideBanner();
       lock.classList.add('up');
       cal.classList.remove('open');
+      dialer.classList.remove('open');
       messages.classList.add('open');
       phone.classList.add('in-msg');
       openChat(bannerChat);
@@ -1164,9 +1520,9 @@
     // text : 문자 내용 (엔터 넣고 싶으면 `백틱`으로 감싸기)
     // time : (선택) 목록 오른쪽에 뜰 시간. 안 쓰면 폰 시간
     const scheduled = [
-      { after: 27, from: '+82 1661-3333', text: `[백일몽 주식회사] ★[긴급/단독] 남해지사 신규 파견 계약직 대모집★
+      { after: 58, from: '+82 1661-3333', text: `[백일몽 주식회사] ★[긴급/단독] 남해지사 신규 파견 계약직 대모집★
         
-초보 환영! 하루만 근무해도 100만 원, 30일 만근 시 1억 즉시 일시불 지급!
+초보 환영! 1달 근무 시 5,000만 원, 100일 만근 시 5억 원 즉시 일시불 지급!
 가족 같은 분위기 속에서 누구나 할 수 있는 안전한 실무 업무입니다. (숙식 제공)
 정규직 전환율 100%, 지금 바로 지원하세요!
 
@@ -1206,7 +1562,11 @@
     phone.onpointerup = function (e) {
       if (startInChat) return;
       if (startY - e.clientY > 50) {
-        if (cal.classList.contains('open')) {
+        if (dialer.classList.contains('open')) {
+          if (!startBottom) return;   // 전화 앱도 언더바에서 시작한 쓸기만 인정
+          dialer.classList.remove('open');
+          phone.classList.remove('in-msg');
+        } else if (cal.classList.contains('open')) {
           if (!startBottom) return;   // 캘린더는 언더바에서 시작한 쓸기만 인정
           cal.classList.remove('open');
           phone.classList.remove('in-msg');
@@ -1391,20 +1751,6 @@
       '2026-12-25': [ { title: '크리스마스' } ],
       '2026-12-31': [ { title: '섣달 그믐날' } ],
       '2026-8-29': [ { title: '생일', color: '#af52de' } ],
-      '2026-1-14': [ { title: '데이트', color: '#af52de' } ],
-      '2026-2-7': [ { title: '데이트', color: '#af52de' } ],
-      '2026-2-25': [ { title: '데이트', color: '#af52de' } ],
-      '2026-3-12': [ { title: '데이트', color: '#af52de' } ],
-      '2026-3-29': [ { title: '데이트', color: '#af52de' } ],
-      '2026-4-12': [ { title: '데이트', color: '#af52de' } ],
-      '2026-5-1': [ { title: '데이트', color: '#af52de' } ],
-      '2026-5-21': [ { title: '데이트', color: '#af52de' } ],
-      '2026-6-13': [ { title: '데이트', color: '#af52de' } ],
-      '2026-6-28': [ { title: '데이트', color: '#af52de' } ],
-      '2026-7-11': [ { title: '데이트', color: '#af52de' } ],
-      '2026-7-26': [ { title: '데이트', color: '#af52de' } ],
-      '2026-8-22': [ { title: '데이트', color: '#af52de' } ],
-      '2026-9-12': [ { title: '데이트', color: '#af52de' } ],
     };
     const DEFAULT_COLOR = '#3f9a63';
     const today = '2026-9-7';                    // 빨간 동그라미 날짜
@@ -1596,6 +1942,212 @@
       cal.classList.add('open');
       phone.classList.add('in-msg');
     };
+
+
+    // ===== 전화 앱 =====
+    const dialer = document.getElementById('dialer');
+    const phoneIcon = document.getElementById('phoneIcon');
+
+    // 연락처: 이름만 쓰면 가나다 순으로 알아서 정리돼 (영어 이름은 A~Z 쪽으로 가)
+    const myName = '나';   // '내 카드'에 뜨는 이름
+    const phoneContacts = ['최요원', '백석주 팀장님', '백일몽 주식회사'];
+
+    // 통화 기록: 위에 있을수록 최근 (아래는 예시니까 마음대로 바꿔줘)
+    //   type : 'in' = 받은 전화 / 'out' = 건 전화 / 'missed' = 부재중 (이름이 빨갛게 나와)
+    //   label: 이름 아래 글씨 / time: 오른쪽 시간 / number: true 면 번호로 저장 안 된 사람
+    //   unseen: true 면 통화 탭 아이콘에 빨간 숫자가 떠 (부재중에만)
+    const callLog = [
+      { name: '백석주 팀장님', type: 'missed', label: '휴대전화', time: '14:03', unseen: true },
+      { name: '최요원', type: 'in', label: '휴대전화', time: '어제' },
+      { name: '최요원', type: 'out', label: '휴대전화', time: '목요일' },
+    ];
+
+    const KEYS = [['1', ''], ['2', 'ABC'], ['3', 'DEF'], ['4', 'GHI'], ['5', 'JKL'], ['6', 'MNO'],
+                  ['7', 'PQRS'], ['8', 'TUV'], ['9', 'WXYZ'], ['*', ''], ['0', '+'], ['#', '']];
+    const HANDSET = '<svg width="14" height="14" viewBox="0 0 24 24" fill="#3b86f7"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>';
+
+    // --- 키패드 ---
+    let dialed = '';
+    function fmtNumber(d) {
+      if (d.length <= 3) return d;
+      if (d.length <= 7) return d.slice(0, 3) + '-' + d.slice(3);
+      return d.slice(0, 3) + '-' + d.slice(3, 7) + '-' + d.slice(7);
+    }
+    function updateNumber() {
+      const el = document.getElementById('dlNumber');
+      el.textContent = fmtNumber(dialed);
+      el.style.fontSize = dialed.length > 9 ? '24px' : '28px';
+      document.getElementById('dlDel').style.display = dialed ? 'flex' : 'none';
+    }
+    const pad = document.getElementById('dlPad');
+    KEYS.forEach(function (k) {
+      const key = document.createElement('div');
+      key.className = 'dl-key';
+      const b = document.createElement('b');
+      b.textContent = k[0];
+      key.appendChild(b);
+      if (k[1]) {
+        const i = document.createElement('i');
+        i.textContent = k[1];
+        key.appendChild(i);
+      }
+      key.onclick = function () {
+        if (dialed.length < 15) dialed += k[0];
+        updateNumber();
+      };
+      pad.appendChild(key);
+    });
+    document.getElementById('dlDel').onclick = function () {
+      dialed = dialed.slice(0, -1);
+      updateNumber();
+    };
+    // 전화 버튼: 건 전화로 통화 기록에 남아
+    document.getElementById('dlCall').onclick = function () {
+      if (!dialed) return;
+      callLog.unshift({ name: fmtNumber(dialed), type: 'out', label: '휴대전화', time: NOW, number: true });
+      dialed = '';
+      updateNumber();
+      renderCalls();
+    };
+
+    // --- 공통 ---
+    function makeAvatar(name, isNumber) {
+      const av = document.createElement('div');
+      av.className = 'dl-av';
+      if (isNumber) av.innerHTML = PERSON_SVG; else av.textContent = name.charAt(0);
+      return av;
+    }
+
+    // --- 연락처 ---
+    const CHO = ['ㄱ','ㄱ','ㄴ','ㄷ','ㄷ','ㄹ','ㅁ','ㅂ','ㅂ','ㅅ','ㅅ','ㅇ','ㅈ','ㅈ','ㅊ','ㅋ','ㅌ','ㅍ','ㅎ'];
+    const INDEX = ['ㄱ','ㄴ','ㄷ','ㄹ','ㅁ','ㅂ','ㅅ','ㅇ','ㅈ','ㅊ','ㅋ','ㅌ','ㅍ','ㅎ']
+      .concat('ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('')).concat(['#']);
+    function initialOf(name) {
+      const c = name.charCodeAt(0);
+      if (c >= 0xAC00 && c <= 0xD7A3) return CHO[Math.floor((c - 0xAC00) / 588)];
+      const u = name.charAt(0).toUpperCase();
+      return /[A-Z]/.test(u) ? u : '#';
+    }
+    function renderContacts() {
+      const list = document.getElementById('dlContactList');
+      list.innerHTML = '';
+
+      const card = document.createElement('div');
+      card.className = 'dl-mycard';
+      card.appendChild(makeAvatar(myName, true));
+      const ct = document.createElement('div');
+      ct.innerHTML = '<div class="dl-myname"></div><div class="dl-mysub">내 카드</div>';
+      ct.firstChild.textContent = myName;
+      card.appendChild(ct);
+      list.appendChild(card);
+
+      const groups = {};
+      phoneContacts.slice().sort(function (a, b) { return a.localeCompare(b, 'ko'); })
+        .forEach(function (name) {
+          const k = initialOf(name);
+          (groups[k] = groups[k] || []).push(name);
+        });
+
+      const secEl = {};
+      INDEX.forEach(function (k) {
+        if (!groups[k]) return;
+        const sec = document.createElement('div');
+        sec.className = 'dl-sec';
+        sec.textContent = k;
+        list.appendChild(sec);
+        secEl[k] = sec;
+        groups[k].forEach(function (name) {
+          const row = document.createElement('div');
+          row.className = 'dl-row';
+          row.appendChild(makeAvatar(name, false));
+          const t = document.createElement('div');
+          t.className = 'dl-rowtxt';
+          t.textContent = name;
+          row.appendChild(t);
+          list.appendChild(row);
+        });
+      });
+
+      const idx = document.getElementById('dlIndex');
+      idx.innerHTML = '';
+      INDEX.forEach(function (k) {
+        const sp = document.createElement('span');
+        sp.textContent = k;
+        sp.onclick = function () { if (secEl[k]) list.scrollTop = secEl[k].offsetTop - 4; };
+        idx.appendChild(sp);
+      });
+    }
+
+    // --- 통화 ---
+    function renderCalls() {
+      const list = document.getElementById('dlCallList');
+      list.innerHTML = '';
+      callLog.forEach(function (c) {
+        const row = document.createElement('div');
+        row.className = 'dl-callrow';
+        row.appendChild(makeAvatar(c.name, c.number));
+
+        const txt = document.createElement('div');
+        txt.className = 'dl-calltxt';
+        const nm = document.createElement('div');
+        nm.className = 'dl-callname' + (c.type === 'missed' ? ' missed' : '');
+        const n1 = document.createElement('div');
+        n1.textContent = c.name;
+        const n2 = document.createElement('div');
+        n2.textContent = (c.type === 'out' ? '↗ ' : '↙ ') + c.label;
+        nm.appendChild(n1);
+        nm.appendChild(n2);
+        txt.appendChild(nm);
+
+        const tm = document.createElement('div');
+        tm.className = 'dl-calltime';
+        tm.textContent = c.time;
+        txt.appendChild(tm);
+
+        const dial = document.createElement('div');
+        dial.className = 'dl-dial';
+        dial.innerHTML = HANDSET;
+        txt.appendChild(dial);
+
+        row.appendChild(txt);
+        list.appendChild(row);
+      });
+      updateCallBadge();
+    }
+    function updateCallBadge() {
+      const n = callLog.filter(function (c) { return c.type === 'missed' && c.unseen; }).length;
+      const b = document.getElementById('dlBadge');
+      b.textContent = n;
+      b.style.display = n > 0 ? 'flex' : 'none';
+    }
+
+    // --- 탭 바꾸기 ---
+    const DL_SCREENS = { keypad: 'dlKeypad', contacts: 'dlContacts', calls: 'dlCalls' };
+    function showTab(t) {
+      Object.keys(DL_SCREENS).forEach(function (k) {
+        document.getElementById(DL_SCREENS[k]).classList.toggle('on', k === t);
+      });
+      document.querySelectorAll('.dl-tab').forEach(function (el) {
+        el.classList.toggle('sel', el.dataset.tab === t);
+      });
+      if (t === 'calls') {   // 통화 탭을 열면 빨간 숫자 사라져
+        callLog.forEach(function (c) { c.unseen = false; });
+        updateCallBadge();
+      }
+    }
+    document.querySelectorAll('.dl-tab').forEach(function (el) {
+      el.onclick = function () { showTab(el.dataset.tab); };
+    });
+    document.getElementById('dlBack').onclick = function () { showTab('keypad'); };
+
+    phoneIcon.onclick = function () {
+      dialer.classList.add('open');
+      phone.classList.add('in-msg');
+    };
+
+    renderContacts();
+    renderCalls();
+    updateNumber();
 
     // 입력창 눌렀다 닫을 때 화면이 밀려 있으면 제자리로
     chatInput.addEventListener('focus', function () {
