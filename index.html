@@ -1309,7 +1309,7 @@
     }
         /* ===== 갤러리 ===== */
     .home-app .ico img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .ico.gal { background: #fff; }
+    .ico.photo { background: #fff; }
 
     .gal {
       position: absolute;
@@ -1420,12 +1420,14 @@
         <img src="https://cdn.discordapp.com/attachments/1161239105489866772/1561413157400879317/safari_ios_browser_logo_icon_152966.png?ex=6ad642d2&is=6ad4f152&hm=a6238df4726db263a304a32f29ab37ab867813a19ebcf1e95ec0b652ec57dc43&">
       </a>
     </div>
-    <div class="home-icons">
+        <div class="home-icons">
       <div class="home-app" id="noteIcon">
-        <div class="ico gal"><img src="https://cdn.discordapp.com/attachments/1161239105489866772/1561647384122105876/831266.png?ex=6ad71cf6&is=6ad5cb76&hm=760e16bad7e899fa2b46fbee269182ecd0284a242de5502134bb6a50ad6d126d&"></div>
-        <span>갤러리</span>
         <div class="ico memo"></div>
         <span>메모</span>
+      </div>
+      <div class="home-app" id="galIcon">
+        <div class="ico photo"><img src="https://cdn.discordapp.com/attachments/1161239105489866772/1561647384122105876/831266.png?ex=6ad71cf6&is=6ad5cb76&hm=760e16bad7e899fa2b46fbee269182ecd0284a242de5502134bb6a50ad6d126d&"></div>
+        <span>갤러리</span>
       </div>
     </div>
     <div class="lock">
@@ -1973,7 +1975,6 @@
       phone.classList.add('in-msg');
       galEl.classList.remove('open');
       phone.classList.remove('in-gal');
-      openChat(bannerChat);
       openChat(bannerChat);
     });
 
