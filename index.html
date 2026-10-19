@@ -2792,6 +2792,9 @@
       '01008290829': '최요원',
       '01012345678': '백석주 팀장님',
       '01000000000': '현탐팀 D조 대리 김솔음'
+      '01048951648': '마무리조 장허운'
+      '080XXXXXXX': '백일몽 주식회사'
+      '01095317365': '은하제'
     };
 
     // ===== 통화 자막 =====
@@ -2870,7 +2873,9 @@
       callTimeouts.forEach(clearTimeout);
       callTimeouts = [];
     }
-
+    // 전화 걸어도 안 받는 사람 (이름 추가하면 돼)
+    const noAnswer = ['은하제'];
+    const NO_ANSWER_TIME = 10;   // 몇 초 동안 '연결 중...' 보여주고 끊을지
     function startCall(name) {
       clearCallTimers();
       currentCallName = name;
@@ -2882,6 +2887,21 @@
       csStack.style.transform = '';
       callEl.classList.add('open');
       phone.classList.add('in-call');
+
+      if (noAnswer.includes(name)) {
+        callTimeouts.push(setTimeout(function () {
+          timeEl.textContent = '응답 없음';
+          callTimeouts.push(setTimeout(function () {
+            if (!callEl.classList.contains('open')) return;
+            clearCallTimers();
+            callEl.classList.remove('open');
+            phone.classList.remove('in-call');
+            callLog.unshift({ name: name, type: 'out', label: '휴대전화', time: NOW });
+            renderCalls();
+          }, 1500));
+        }, NO_ANSWER_TIME * 1000));
+        return;
+      }
 
       callTimeouts.push(setTimeout(function () {
         callSecs = 0;
