@@ -1210,7 +1210,7 @@
     .nt-sub { font-size: 10.5px; color: #8e8e93; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .nt-sub span + span { margin-left: 6px; }
     .nt-folder { display: flex; align-items: center; gap: 4px; margin-top: 2px; font-size: 10.5px; color: #8e8e93; }
-    .nt-lock { position: absolute; left: 5px; top: 50%; margin-top: -6px; }
+    .nt-lock { display: inline-block; margin-right: 4px; vertical-align: -1px; }
     .nt-search {
       position: absolute;
       left: 19px; right: 61px; bottom: 20px;
@@ -1341,7 +1341,7 @@
     .gal-grid {
       margin-top: auto;
       display: grid;
-      grid-template-columns: repeat(5, 1fr);
+      grid-template-columns: repeat(3, 1fr);
       gap: 1px;
     }
     .gal-cell { position: relative; aspect-ratio: 1; overflow: hidden; background: #2a2a2a; }
@@ -2865,17 +2865,16 @@
           const it = document.createElement('div');
           it.className = 'nt-item';
 
-          if (n.locked) {
-            const lk = document.createElement('div');
-            lk.className = 'nt-lock';
-            lk.innerHTML = LOCK_SVG;
-            it.appendChild(lk);
-          }
-
           const t = document.createElement('div');
           t.className = 'nt-title';
-          t.textContent = noteTitle(n);
-
+          if (n.locked) {
+            const lk = document.createElement('span');
+            lk.className = 'nt-lock';
+            lk.innerHTML = LOCK_SVG;
+            t.appendChild(lk);
+          }
+          t.appendChild(document.createTextNode(noteTitle(n)));
+          
           const s = document.createElement('div');
           s.className = 'nt-sub';
           const s1 = document.createElement('span');
