@@ -1112,7 +1112,7 @@
       document.getElementById('bannerText').textContent = text;
       banner.classList.add('show');
       clearTimeout(bannerTimer);
-      bannerTimer = setTimeout(hideBanner, 1700);   // 4.5초 뒤 사라짐
+      bannerTimer = setTimeout(hideBanner, 4000);   // 4.5초 뒤 사라짐
     }
     function hideBanner() {
       clearTimeout(bannerTimer);
@@ -1164,7 +1164,7 @@
     // text : 문자 내용 (엔터 넣고 싶으면 `백틱`으로 감싸기)
     // time : (선택) 목록 오른쪽에 뜰 시간. 안 쓰면 폰 시간
     const scheduled = [
-      { after: 58, from: '+82 1661-3333', text: `[백일몽 주식회사] ★[긴급/단독] 남해지사 신규 파견 계약직 대모집★
+      { after: 27, from: '+82 1661-3333', text: `[백일몽 주식회사] ★[긴급/단독] 남해지사 신규 파견 계약직 대모집★
         
 초보 환영! 1달 근무 시 5,000만 원, 100일 만근 시 5억 원 즉시 일시불 지급!
 가족 같은 분위기 속에서 누구나 할 수 있는 안전한 실무 업무입니다. (숙식 제공)
