@@ -1502,7 +1502,8 @@
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1c1c1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5l-8.5 8.5a5 5 0 0 1-7-7l9-9a3.3 3.3 0 0 1 4.7 4.7l-9 9a1.7 1.7 0 0 1-2.4-2.4l8-8"/></svg>
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1c1c1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8.5 17l3.5-9 3.5 9M9.8 14h4.4"/></svg>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1c1c1e" stroke-width="1.8" stroke-linecap="round"><ellipse cx="12" cy="12" rx="10" ry="4.2"/><ellipse cx="12" cy="12" rx="10" ry="4.2" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4.2" transform="rotate(120 12 12)"/></svg>
-      <div class="nt-compose off">
+      </div>
+        <div class="nt-compose off">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1c1c1e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-6"/><path d="M18.4 3.6a1.8 1.8 0 0 1 2.5 2.5L12 15l-3.5 1 1-3.5z"/></svg>
       </div>
       <div class="home-zone"></div>
@@ -2695,10 +2696,10 @@
     //   body   : 메모 내용. 첫 줄이 제목, 둘째 줄이 미리보기로 나와 (줄바꿈은 \n)
     //   locked : true 면 자물쇠가 붙고 눌러도 안 열려
     const notes = [
-      { section: '고정된 메모', date: '2026. 8. 12.', body: '비밀번호\n인트라넷: 진나솔/0000\n최요원 집 비번: 0829' },
+      { section: '고정된 메모', date: '2026. 8. 12.', written: '2026년 8월 12일 15:30', body: '비밀번호\n인트라넷: 진나솔/0000\n최요원 집 비번: 0829' },
       { section: '고정된 메모', date: '2018. 4. 16.', locked: true, body: '의뢰' },
-      { section: '고정된 메모', date: '2024. 8. 17.', body: '오늘 데이트 하는데 개지랄 미친 아니 오랜만에 보는 것도 아니고 그냥 같이 놀러나온 게 오랜만인데 왜 이렇게 지랄이지 오늘' },
-      { section: '이전 7일', date: '금요일', body: '정기 점검\nQterw-D-046\n1/5 이상 없음\n2.10 오이가 나한테 당근한테 악감정 있냐고 물어봄, 그 외는 이상 없음.\n3.25 이상 없음\n4.15 오늘도 이상한 거 물어봄, 그 외에는 이상 없음.\n5.13 이상 없음\n6.17 ㅇㅅ ㅇㅇ\n7.10 ㄴ\n8.18 ㄴ' },
+      { section: '고정된 메모', date: '2024. 8. 17.', written: '2026년 8월 17일 21:58', body: '오늘 데이트 하는데 개지랄 미친 아니 오랜만에 보는 것도 아니고 그냥 같이 놀러나온 게 오랜만인데 왜 이렇게 지랄이지 오늘' },
+      { section: '이전 7일', date: '금요일', written: '2026년 9월 4일 17:51', body: '정기 점검\nQterw-D-046\n1.5 이상 없음\n2.10 오이가 나한테 당근한테 악감정 있냐고 물어봄, 그 외는 이상 없음.\n3.25 이상 없음\n4.15 오늘도 이상한 거 물어봄, 그 외에는 이상 없음.\n5.13 이상 없음\n6.17 ㅇㅅ ㅇㅇ\n7.10 ㄴ\n8.18 ㄴ' },
     ];
 
     const notesEl = document.getElementById('notes');
@@ -2779,7 +2780,7 @@
     function openNote(n) {
       editing = n || null;
       noteText.value = n ? n.body : '';
-      document.getElementById('neDate').textContent = NOTE_DATE;
+      document.getElementById('neDate').textContent = n ? (n.written || n.date) : NOTE_DATE;
       noteEd.classList.add('open');
       if (!n) noteText.focus({ preventScroll: true });
     }
@@ -2794,12 +2795,14 @@
         } else if (text !== editing.body) {
           editing.body = text;
           editing.date = NOW;
+                    editing.date = NOW;
+          editing.written = NOTE_DATE;
           if (editing.section !== '고정된 메모') editing.section = '오늘';
           notes.splice(at, 1);
           notes.unshift(editing);
         }
       } else if (text.trim()) {
-        notes.unshift({ section: '오늘', date: NOW, body: text });
+        notes.unshift({ section: '오늘', date: NOW, written: NOTE_DATE, body: text });
       }
       editing = null;
       noteText.blur();
