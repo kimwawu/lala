@@ -860,9 +860,10 @@
       scrollbar-width: none;
     }
     .dl-scroll::-webkit-scrollbar { display: none; }
+    #dlContactList { padding-right: 20px; }
     .dl-av {
-      width: 30px;
-      height: 30px;
+      width: 32px;
+      height: 32px;
       border-radius: 50%;
       background: linear-gradient(#a5aab5, #858a95);
       flex-shrink: 0;
@@ -876,25 +877,28 @@
     .dl-av svg { width: 17px; height: 17px; }
 
     /* 연락처 */
-    .dl-mycard { display: flex; align-items: center; gap: 10px; padding: 4px 14px 10px; }
-    .dl-mycard .dl-av { width: 34px; height: 34px; }
-    .dl-myname { font-size: 15px; font-weight: 700; }
+    .dl-mycard { display: flex; align-items: center; gap: 10px; padding: 4px 14px 12px; }
+    .dl-mycard .dl-av { width: 32px; height: 32px; }
+    .dl-myname { font-size: 15px; font-weight: 700; line-height: 1.2; }
     .dl-mysub { font-size: 11px; color: #8e8e93; }
     .dl-sec {
-      font-size: 10px;
+      font-size: 11px;
       color: #8e8e93;
-      padding: 8px 14px 3px;
+      padding: 10px 14px 3px;
       border-bottom: 1px solid #e5e5ea;
     }
-    .dl-row { display: flex; align-items: center; gap: 10px; padding-left: 14px; height: 42px; }
+    .dl-row { display: flex; align-items: center; gap: 10px; padding-left: 14px; height: 44px; }
     .dl-rowtxt {
       flex: 1;
       height: 100%;
       display: flex;
       align-items: center;
-      font-size: 14px;
+      font-size: 15px;
       border-bottom: 1px solid #e5e5ea;
-      margin-right: 22px;
+    }
+        .dl-row:has(+ .dl-sec) .dl-rowtxt,
+    .dl-row:last-child .dl-rowtxt {
+      border-bottom: none;
     }
     .dl-index {
       position: absolute;
@@ -1656,7 +1660,7 @@
 감사합니다.` },
       ],
     };
-    const REPLY_DELAY = 1500;   // 답장 오는 시간 (1000 = 1초)
+    const REPLY_DELAY = 4500;   // 답장 오는 시간 (1000 = 1초)
 
     // 채팅창에 말풍선 하나 추가
     function addBubble(kind, text, timeText) {
@@ -1751,6 +1755,21 @@
       '2026-12-25': [ { title: '크리스마스' } ],
       '2026-12-31': [ { title: '섣달 그믐날' } ],
       '2026-8-29': [ { title: '생일', color: '#af52de' } ],
+      '2026-1-10': [ { title: '데이트', color: '#af52de' } ],
+      '2026-1-23': [ { title: '데이트', color: '#af52de' } ],
+      '2026-2-8': [ { title: '데이트', color: '#af52de' } ],
+      '2026-2-23': [ { title: '데이트', color: '#af52de' } ],
+      '2026-3-21': [ { title: '데이트', color: '#af52de' } ],
+      '2026-4-6': [ { title: '데이트', color: '#af52de' } ],
+      '2026-4-25': [ { title: '데이트', color: '#af52de' } ],
+      '2026-5-17': [ { title: '데이트', color: '#af52de' } ],
+      '2026-5-30': [ { title: '데이트', color: '#af52de' } ],
+      '2026-6-7': [ { title: '데이트', color: '#af52de' } ],
+      '2026-6-27': [ { title: '데이트', color: '#af52de' } ],
+      '2026-7-11': [ { title: '데이트', color: '#af52de' } ],
+      '2026-7-30': [ { title: '데이트', color: '#af52de' } ],
+      '2026-8-17': [ { title: '데이트', color: '#af52de' } ],
+      '2026-9-12': [ { title: '데이트', color: '#af52de' } ],
     };
     const DEFAULT_COLOR = '#3f9a63';
     const today = '2026-9-7';                    // 빨간 동그라미 날짜
@@ -1950,7 +1969,7 @@
 
     // 연락처: 이름만 쓰면 가나다 순으로 알아서 정리돼 (영어 이름은 A~Z 쪽으로 가)
     const myName = '나';   // '내 카드'에 뜨는 이름
-    const phoneContacts = ['최요원', '백석주 팀장님', '백일몽 주식회사'];
+    const phoneContacts = ['최요원', '백석주 팀장님', '백일몽 주식회사', '현탐팀 D조 대리 김솔음', '마무리조 장허운', '은하제'];
 
     // 통화 기록: 위에 있을수록 최근 (아래는 예시니까 마음대로 바꿔줘)
     //   type : 'in' = 받은 전화 / 'out' = 건 전화 / 'missed' = 부재중 (이름이 빨갛게 나와)
